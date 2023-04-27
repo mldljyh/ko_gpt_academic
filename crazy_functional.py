@@ -24,90 +24,90 @@ def get_crazy_functions():
     from crazy_functions.批量Markdown翻译 import Markdown英译中
     function_plugins = {
 
-        "解析整个Python项目": {
-            "Color": "stop",    # 按钮颜色
+        "Python 프로젝트 분석": {
+            "Color": "stop",    # 버튼 색상
             "Function": HotReload(解析一个Python项目)
         },
-        "保存当前的对话": {
+        "현재 대화 저장": {
             "AsButton":False,
             "Function": HotReload(对话历史存档)
         },
-        "[测试功能] 解析Jupyter Notebook文件": {
+        "[테스트 기능] Jupyter Notebook 파일 분석": {
             "Color": "stop",
             "AsButton":False,
             "Function": HotReload(解析ipynb文件),
-            "AdvancedArgs": True, # 调用时，唤起高级参数输入区（默认False）
-            "ArgsReminder": "若输入0，则不解析notebook中的Markdown块", # 高级参数输入区的显示提示
+            "AdvancedArgs": True,  # 호출 시 고급 매개변수 입력 영역 활성화 (기본값: False)
+            "ArgsReminder": "0을 입력하면 노트북의 Markdown 블록을 분석하지 않습니다", # 고급 매개변수 입력 영역의 표시 팁
         },
-        "批量总结Word文档": {
+        "Word 문서 일괄 요약": {
             "Color": "stop",
             "Function": HotReload(总结word文档)
         },
-        "解析整个C++项目头文件": {
-            "Color": "stop",    # 按钮颜色
-            "AsButton": False,  # 加入下拉菜单中
+        "C++ 프로젝트 헤더 파일 분석": {
+            "Color": "stop",    # 버튼 색상
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析一个C项目的头文件)
         },
-        "解析整个C++项目（.cpp/.hpp/.c/.h）": {
-            "Color": "stop",    # 按钮颜色
-            "AsButton": False,  # 加入下拉菜单中
+        "C++ 프로젝트(.cpp/.hpp/.c/.h) 분석）": {
+            "Color": "stop",    # 버튼 색상
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析一个C项目)
         },
-        "解析整个Go项目": {
-            "Color": "stop",    # 按钮颜色
-            "AsButton": False,  # 加入下拉菜单中
+        "Go 프로젝트 분석": {
+            "Color": "stop",    # 버튼 색상
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析一个Golang项目)
         },
-        "解析整个Java项目": {
-            "Color": "stop",  # 按钮颜色
-            "AsButton": False,  # 加入下拉菜单中
+        "Java 프로젝트 분석": {
+            "Color": "stop",  # 버튼 색상
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析一个Java项目)
         },
-        "解析整个React项目": {
-            "Color": "stop",  # 按钮颜色
-            "AsButton": False,  # 加入下拉菜单中
+        "React 프로젝트 분석": {
+            "Color": "stop",  # 버튼 색상
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析一个Rect项目)
         },
-        "解析整个Lua项目": {
-            "Color": "stop",    # 按钮颜色
-            "AsButton": False,  # 加入下拉菜单中
+        "Lua 프로젝트 분석": {
+            "Color": "stop",    # 버튼 색상
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析一个Lua项目)
         },
-        "解析整个CSharp项目": {
-            "Color": "stop",    # 按钮颜色
-            "AsButton": False,  # 加入下拉菜单中
+        "CSharp 프로젝트 분석": {
+            "Color": "stop",    # 버튼 색상
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析一个CSharp项目)
         },
-        "读Tex论文写摘要": {
-            "Color": "stop",    # 按钮颜色
+        "Tex 논문 읽고 요약 작성": {
+            "Color": "stop",    # 버튼 색상
             "Function": HotReload(读文章写摘要)
         },
-        "Markdown/Readme英译中": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+        "Markdown/Readme를 한국어로 번역합니다.": {
+            # HotReload는 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고도 코드가 즉시 적용되도록 함
             "Color": "stop",
             "Function": HotReload(Markdown英译中)
         },
-        "批量生成函数注释": {
-            "Color": "stop",    # 按钮颜色
-            "AsButton": False,  # 加入下拉菜单中
+        "일괄 함수 주석 생성": {
+            "Color": "stop",    # 버튼 색상
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(批量生成函数注释)
         },
-        "[多线程Demo] 解析此项目本身（源码自译解）": {
+        "[다중 스레드 데모] 프로젝트 자체 분석 (소스 코드 자체 번역)": {
             "Function": HotReload(解析项目本身)
         },
-        "[多线程demo] 把本项目源代码切换成全英文": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
-            "AsButton": False,  # 加入下拉菜单中
+        "[다중 스레드 데모] 프로젝트 소스 코드 전체를 영어로 변경": {
+            # HotReload는 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고도 코드가 즉시 적용되도록 함
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(全项目切换英文)
         },
-        "[函数插件模板Demo] 历史上的今天": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+        "[함수 플러그인 템플릿 데모] 오늘의 역사": {
+            # HotReload는 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고도 코드가 즉시 적용되도록 함
             "Function": HotReload(高阶功能模板函数)
         },
 
     }
-    ###################### 第二组插件 ###########################
-    # [第二组插件]: 经过充分测试
+    ###################### 세 번째 그룹 플러그인 ###########################
+    # [세 번째 그룹 플러그인]: 충분히 테스트되지 않은 함수 플러그인이 여기에 있습니다.
     from crazy_functions.批量总结PDF文档 import 批量总结PDF文档
     from crazy_functions.批量总结PDF文档pdfminer import 批量总结PDF文档pdfminer
     from crazy_functions.批量翻译PDF文档_多线程 import 批量翻译PDF文档
@@ -119,66 +119,66 @@ def get_crazy_functions():
     from crazy_functions.批量Markdown翻译 import Markdown中译英
 
     function_plugins.update({
-        "批量翻译PDF文档（多线程）": {
+        "일괄 번역 PDF 문서 (다중 스레드)": {
             "Color": "stop",
-            "AsButton": True,  # 加入下拉菜单中
+            "AsButton": True,  # 드롭다운 메뉴에 추가
             "Function": HotReload(批量翻译PDF文档)
         },
-        "询问多个GPT模型": {
-            "Color": "stop",    # 按钮颜色
+        "여러 GPT 모델에 질문하기": {
+            "Color": "stop",    # 버튼 색상
             "Function": HotReload(同时问询)
         },
-        "[测试功能] 批量总结PDF文档": {
+        "[테스트 기능] 일괄 요약 PDF 문서": {
             "Color": "stop",
-            "AsButton": False,  # 加入下拉菜单中
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
             "Function": HotReload(批量总结PDF文档)
         },
-        "[测试功能] 批量总结PDF文档pdfminer": {
+        "[테스트 기능] 일괄 요약 PDF 문서(pdfminer)": {
             "Color": "stop",
-            "AsButton": False,  # 加入下拉菜单中
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(批量总结PDF文档pdfminer)
         },
-        "谷歌学术检索助手（输入谷歌学术搜索页url）": {
+        "Google 학술 검색 도우미 (Google 학술 검색 페이지 URL 입력)": {
             "Color": "stop",
-            "AsButton": False,  # 加入下拉菜单中
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(谷歌检索小助手)
         },
 
-        "理解PDF文档内容 （模仿ChatPDF）": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+        "PDF 문서 내용 이해 (ChatPDF 모방)": {
+            # HotReload의 의미는 핫 업데이트이며, 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고 직접 코드를 적용합니다
             "Color": "stop",
-            "AsButton": False,  # 加入下拉菜单中
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(理解PDF文档内容标准文件输入)
         },
-        "[测试功能] 英文Latex项目全文润色（输入路径或上传压缩包）": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+        "[테스트 기능] 영어 Latex 프로젝트 전체 번역 평가(경로 입력 또는 압축 파일 업로드)": {
+            # HotReload의 의미는 핫 업데이트이며, 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고 직접 코드를 적용합니다
             "Color": "stop",
-            "AsButton": False,  # 加入下拉菜单中
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(Latex英文润色)
         },
-        "[测试功能] 中文Latex项目全文润色（输入路径或上传压缩包）": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+        "[테스트 기능] 한국어 Latex 프로젝트 전체 번역 평가(경로 입력 또는 압축 파일 업로드)": {
+            # HotReload의 의미는 핫 업데이트이며, 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고 직접 코드를 적용합니다
             "Color": "stop",
-            "AsButton": False,  # 加入下拉菜单中
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(Latex中文润色)
         },
-        "[测试功能] Latex项目全文中译英（输入路径或上传压缩包）": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+        "[테스트 기능] Latex 프로젝트 전체 한-영 번역(경로 입력 또는 압축 파일 업로드)": {
+            # HotReload의 의미는 핫 업데이트이며, 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고 직접 코드를 적용합니다
             "Color": "stop",
-            "AsButton": False,  # 加入下拉菜单中
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(Latex中译英)
         },
-        "[测试功能] Latex项目全文英译中（输入路径或上传压缩包）": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+        "[테스트 기능] Latex 프로젝트 전체 영-한 번역(경로 입력 또는 압축 파일 업로드)": {
+            # HotReload의 의미는 핫 업데이트이며, 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고 직접 코드를 적용합니다
             "Color": "stop",
-            "AsButton": False,  # 加入下拉菜单中
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(Latex英译中)
         },
-        "[测试功能] 批量Markdown中译英（输入路径或上传压缩包）": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+        "[테스트 기능] 일괄 Markdown 중-영 번역(경로 입력 또는 압축 파일 업로드)": {
+            # HotReload의 의미는 핫 업데이트이며, 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고 직접 코드를 적용합니다
             "Color": "stop",
-            "AsButton": False,  # 加入下拉菜单中
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(Markdown中译英)
         },
 
@@ -189,40 +189,39 @@ def get_crazy_functions():
     # [第三组插件]: 尚未充分测试的函数插件，放在这里
     from crazy_functions.下载arxiv论文翻译摘要 import 下载arxiv论文并翻译摘要
     function_plugins.update({
-        "一键下载arxiv论文并翻译摘要（先在input输入编号，如1812.10695）": {
+        "한 번에 arxiv 논문 다운로드 및 번역 요약 작성 (먼저 번호를 입력하고 1812.10695와 같이 입력)": {
             "Color": "stop",
-            "AsButton": False,  # 加入下拉菜单中
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(下载arxiv论文并翻译摘要)
         }
     })
 
     from crazy_functions.联网的ChatGPT import 连接网络回答问题
     function_plugins.update({
-        "连接网络回答问题（先输入问题，再点击按钮，需要访问谷歌）": {
+        "인터넷에 연결하여 질문에 대한 답변을 찾습니다 (질문을 입력한 후 버튼을 클릭하면 구글에 액세스해야 함)": {
             "Color": "stop",
-            "AsButton": False,  # 加入下拉菜单中
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(连接网络回答问题)
         }
     })
 
     from crazy_functions.解析项目源代码 import 解析任意code项目
     function_plugins.update({
-        "解析项目源代码（手动指定和筛选源代码文件类型）": {
+        "프로젝트 소스코드 분석(수동으로 지정하고 소스 코드 파일 타입을 필터링하여)": {
             "Color": "stop",
             "AsButton": False,
-            "AdvancedArgs": True, # 调用时，唤起高级参数输入区（默认False）
-            "ArgsReminder": "输入时用逗号隔开, *代表通配符, 加了^代表不匹配; 不输入代表全部匹配。例如: \"*.c, ^*.cpp, config.toml, ^*.toml\"", # 高级参数输入区的显示提示
+            "AdvancedArgs": True, # 호출하면 고급 인수 입력 영역을 호출합니다 (기본값은 False입니다)
+            "ArgsReminder": "쉼표로 구분하여 입력하고 *는 와일드 카드입니다. ^는 일치하지 않습니다. 입력하지 않으면 모두 일치합니다. 예 : \"*.c, ^*.cpp, config.toml, ^*.toml\"", # 고급 인수 입력 영역의 표시 팁
             "Function": HotReload(解析任意code项目)
         },
     })
     from crazy_functions.询问多个大语言模型 import 同时问询_指定模型
     function_plugins.update({
-        "询问多个GPT模型（手动指定询问哪些模型）": {
+        "여러 GPT 모델에 질문하기(수동으로 어떤 모델을 질의할지 지정)": {
             "Color": "stop",
             "AsButton": False,
-            "AdvancedArgs": True, # 调用时，唤起高级参数输入区（默认False）
-            "ArgsReminder": "支持任意数量的llm接口，用&符号分隔。例如chatglm&gpt-3.5-turbo&api2d-gpt-4", # 高级参数输入区的显示提示
-            "Function": HotReload(同时问询_指定模型)
+            "AdvancedArgs": True, # 호출하면 고급 인수 입력 영역을 호출합니다 (기본값은 False입니다)
+            "ArgsReminder": "최대 수신 LLM 인터페이스 어느 것이든 지원하며 &로 구분합니다. 예 : chatglm & gpt-3.5-turbo & api2d-gpt-4", # 고급 인수 입력 영역의 표시 팁
         },
     })
     ###################### 第n组插件 ###########################

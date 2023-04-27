@@ -178,7 +178,7 @@ def 下载arxiv论文并翻译摘要(txt, llm_kwargs, plugin_kwargs, chatbot, hi
         inputs_show_user=i_say_show_user,
         llm_kwargs=llm_kwargs,
         chatbot=chatbot, history=[],
-        sys_prompt="Your job is to collect information from materials and translate to Chinese。",
+        sys_prompt="Your job is to collect information from materials and translate to Korean。",
     )
 
     chatbot[-1] = (i_say_show_user, gpt_say)

@@ -7,7 +7,7 @@ else:
     from colorama import init
     init()
 
-# Do you like the elegance of Chinese characters?
+# Do you like the elegance of Korean characters?
 def print红(*kw,**kargs):
     print("\033[0;31m",*kw,"\033[0m",**kargs)
 def print绿(*kw,**kargs):

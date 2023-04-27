@@ -55,7 +55,7 @@ def get_meta_information(url, chatbot, history):
             'is_paper_in_arxiv':is_paper_in_arxiv,
         })
 
-        chatbot[-1] = [chatbot[-1][0], title + f'\n\n是否在arxiv中（不在arxiv中无法获取完整摘要）:{is_paper_in_arxiv}\n\n' + abstract]
+        chatbot[-1] = [chatbot[-1][0], title + f'"Arxiv에 있는지 확인해 주세요. (Arxiv에 없으면 완전한 초록을 얻을 수 없습니다): {is_paper_in_arxiv}"' + abstract]
         yield from update_ui(chatbot=chatbot, history=[]) # 刷新界面
     return profile
 
@@ -63,8 +63,8 @@ def get_meta_information(url, chatbot, history):
 def 谷歌检索小助手(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, web_port):
     # 基本信息：功能、贡献者
     chatbot.append([
-        "函数插件功能？",
-        "分析用户提供的谷歌学术（google scholar）搜索页面中，出现的所有文章: binary-husky，插件初始化中..."])
+        "함수 플러그인 기능이 뭐에요?",
+        "사용자가 제공한 구글 학술 검색 페이지에서 발견된 모든 논문을 분석하면, \"binary-husky\"라는 플러그인이 초기화되는 것을 볼 수 있습니다."])
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
     # 尝试导入依赖，如果缺少依赖，则给出安装建议
@@ -74,8 +74,8 @@ def 谷歌检索小助手(txt, llm_kwargs, plugin_kwargs, chatbot, history, syst
         from bs4 import BeautifulSoup
     except:
         report_execption(chatbot, history, 
-            a = f"解析项目: {txt}", 
-            b = f"导入软件依赖失败。使用该模块需要额外依赖，安装方法```pip install --upgrade beautifulsoup4 arxiv```。")
+            a = f"해석 프로젝트: {txt}", 
+            b = f"소프트웨어 의존성을 가져오지 못했습니다. 이 모듈을 사용하려면 추가적인 의존성이 필요하며, 설치 방법은 ```pip install --upgrade beautifulsoup4 arxiv```입니다.")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
@@ -85,24 +85,24 @@ def 谷歌检索小助手(txt, llm_kwargs, plugin_kwargs, chatbot, history, syst
     batchsize = 5
     for batch in range(math.ceil(len(meta_paper_info_list)/batchsize)):
         if len(meta_paper_info_list[:batchsize]) > 0:
-            i_say = "下面是一些学术文献的数据，提取出以下内容：" + \
-            "1、英文题目；2、中文题目翻译；3、作者；4、arxiv公开（is_paper_in_arxiv）；4、引用数量（cite）；5、中文摘要翻译。" + \
-            f"以下是信息源：{str(meta_paper_info_list[:batchsize])}" 
+            i_say = "아래는 일부 학술 자료의 데이터이며, 다음 내용을 추출했습니다:" + \
+            "1. Title in English；2. Translation of the title in Korean:3. Author:4. Publication in Arxiv (Boolean value):5. Translation of the abstract in Korean" + \
+            f"다음은 정보 출처입니다: {str(meta_paper_info_list[:batchsize])}" 
 
-            inputs_show_user = f"请分析此页面中出现的所有文章：{txt}，这是第{batch+1}批"
+            inputs_show_user = f"이 페이지에 나타난 모든 기사를 분석하십시오: {txt}, 이것은 {batch+1}번째 일괄 처리입니다."
             gpt_say = yield from request_gpt_model_in_new_thread_with_ui_alive(
                 inputs=i_say, inputs_show_user=inputs_show_user,
                 llm_kwargs=llm_kwargs, chatbot=chatbot, history=[],
-                sys_prompt="你是一个学术翻译，请从数据中提取信息。你必须使用Markdown表格。你必须逐个文献进行处理。"
+                sys_prompt="당신은 학술 번역가이며, 데이터에서 정보를 추출해야 합니다. Markdown 테이블을 사용해야 합니다. 각 문헌을 하나씩 처리해야 합니다."
             )
 
-            history.extend([ f"第{batch+1}批", gpt_say ])
+            history.extend([ f"제{batch+1}배치", gpt_say ])
             meta_paper_info_list = meta_paper_info_list[batchsize:]
 
-    chatbot.append(["状态？", 
-        "已经全部完成，您可以试试让AI写一个Related Works，例如您可以继续输入Write a \"Related Works\" section about \"你搜索的研究领域\" for me."])
-    msg = '正常'
+    chatbot.append(["상태?", 
+        "\"Related Works\"를 AI에게 작성하도록 시도해 볼 수 있습니다. 모든 작업이 이미 완료되었습니다.\"Related Works\" section about \"你搜索的研究领域\" for me."])
+    msg = '일반적인/보통의/정상적인/양호한/정상/정상상태'
     yield from update_ui(chatbot=chatbot, history=history, msg=msg) # 刷新界面
     res = write_results_to_file(history)
-    chatbot.append(("完成了吗？", res)); 
+    chatbot.append(("완료했나요?", res)); 
     yield from update_ui(chatbot=chatbot, history=history, msg=msg) # 刷新界面
