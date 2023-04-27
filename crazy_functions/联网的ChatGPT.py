@@ -44,7 +44,7 @@ def scrape_text(url, proxies) -> str:
         response = requests.get(url, headers=headers, proxies=proxies, timeout=8)
         if response.encoding == "ISO-8859-1": response.encoding = response.apparent_encoding
     except: 
-        return "无法连接到该网页"
+        return "그 페이지에 접속할 수 없습니다."
     soup = BeautifulSoup(response.text, "html.parser")
     for script in soup(["script", "style"]):
         script.extract()
@@ -66,8 +66,8 @@ def 连接网络回答问题(txt, llm_kwargs, plugin_kwargs, chatbot, history, s
     web_port        当前软件运行的端口号
     """
     history = []    # 清空历史，以免输入溢出
-    chatbot.append((f"请结合互联网信息回答以下问题：{txt}", 
-                    "[Local Message] 请注意，您正在调用一个[函数插件]的模板，该模板可以实现ChatGPT联网信息综合。该函数面向希望实现更多有趣功能的开发者，它可以作为创建新功能函数的模板。您若希望分享新的功能模组，请不吝PR！"))
+    chatbot.append((f"인터넷 정보를 참고하여 다음 질문에 대답해 주세요: {txt}", 
+                    "[Local Message] 주의하세요, 여러분은 [함수 플러그인]의 템플릿을 호출하고 있습니다. 이 템플릿을 사용하면 ChatGPT 네트워크 정보를 종합하는 기능을 구현할 수 있습니다. 이 함수는 더 많은 재미있는 기능을 구현하고자 하는 개발자를 대상으로 합니다. 새로운 기능 모듈을 공유하고자 한다면 PR을 주저하지 마세요!"))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面 # 由于请求gpt需要一段时间，我们先及时地做一次界面更新
 
     # ------------- < 第1步：爬取搜索引擎的结果 > -------------
@@ -80,12 +80,12 @@ def 连接网络回答问题(txt, llm_kwargs, plugin_kwargs, chatbot, history, s
     max_search_result = 5   # 最多收纳多少个网页的结果
     for index, url in enumerate(urls[:max_search_result]):
         res = scrape_text(url['link'], proxies)
-        history.extend([f"第{index}份搜索结果：", res])
-        chatbot.append([f"第{index}份搜索结果：", res[:500]+"......"])
+        history.extend([f"검색 결과 중 {index}번째:", res])
+        chatbot.append([f"검색 결과 중 {index}번째:", res[:500]+"......"])
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面 # 由于请求gpt需要一段时间，我们先及时地做一次界面更新
 
     # ------------- < 第3步：ChatGPT综合 > -------------
-    i_say = f"从以上搜索结果中抽取信息，然后回答问题：{txt}"
+    i_say = f"위의 검색 결과에서 정보를 추출하고, 그 후 질문에 대답해주세요: {txt}"
     i_say, history = input_clipping(    # 裁剪输入，从最长的条目开始裁剪，防止爆token
         inputs=i_say, 
         history=history, 
@@ -94,7 +94,7 @@ def 连接网络回答问题(txt, llm_kwargs, plugin_kwargs, chatbot, history, s
     gpt_say = yield from request_gpt_model_in_new_thread_with_ui_alive(
         inputs=i_say, inputs_show_user=i_say, 
         llm_kwargs=llm_kwargs, chatbot=chatbot, history=history, 
-        sys_prompt="请从给定的若干条搜索结果中抽取信息，对最相关的两个搜索结果进行总结，然后回答问题。"
+        sys_prompt="주어진 검색 결과 중에서 정보를 추출하여 가장 관련성이 높은 두 개의 검색 결과를 요약하고, 그 다음 질문에 답해주세요."
     )
     chatbot[-1] = (i_say, gpt_say)
     history.append(i_say);history.append(gpt_say)

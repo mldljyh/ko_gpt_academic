@@ -54,15 +54,15 @@ def 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, ch
     n_split = len(pfg.sp_file_contents)
 
     #  <-------- 多线程润色开始 ----------> 
-    if language == 'en->zh':
-        inputs_array = ["This is a Markdown file, translate it into Chinese, do not modify any existing Markdown commands:" + 
+    if language == 'en->ko':
+        inputs_array = ["This is a Markdown file, translate it into Korean, do not modify any existing Markdown commands:" + 
                         f"\n\n{frag}" for frag in pfg.sp_file_contents]
-        inputs_show_user_array = [f"翻译 {f}" for f in pfg.sp_file_tag]
+        inputs_show_user_array = [f"번역 {f}" for f in pfg.sp_file_tag]
         sys_prompt_array = ["You are a professional academic paper translator." for _ in range(n_split)]
-    elif language == 'zh->en':
+    elif language == 'ko->en':
         inputs_array = [f"This is a Markdown file, translate it into English, do not modify any existing Markdown commands:" + 
                         f"\n\n{frag}" for frag in pfg.sp_file_contents]
-        inputs_show_user_array = [f"翻译 {f}" for f in pfg.sp_file_tag]
+        inputs_show_user_array = [f"번역 {f}" for f in pfg.sp_file_tag]
         sys_prompt_array = ["You are a professional academic paper translator." for _ in range(n_split)]
 
     gpt_response_collection = yield from request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
@@ -80,7 +80,7 @@ def 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, ch
     create_report_file_name = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + f"-chatgpt.polish.md"
     res = write_results_to_file(gpt_response_collection, file_name=create_report_file_name)
     history = gpt_response_collection
-    chatbot.append((f"{fp}完成了吗？", res))
+    chatbot.append((f"{fp} 완료되었나요?", res))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
 
@@ -117,8 +117,8 @@ def get_files_from_everything(txt):
 def Markdown英译中(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, web_port):
     # 基本信息：功能、贡献者
     chatbot.append([
-        "函数插件功能？",
-        "对整个Markdown项目进行翻译。函数插件贡献者: Binary-Husky"])
+        "함수 플러그인 기능이 뭔가요?",
+        "Markdown 프로젝트 전체를 번역합니다. 함수 플러그인 기여자: Binary-Husky"])
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
     # 尝试导入依赖，如果缺少依赖，则给出安装建议
@@ -127,8 +127,8 @@ def Markdown英译中(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
         import glob, os
     except:
         report_execption(chatbot, history,
-                         a=f"解析项目: {txt}",
-                         b=f"导入软件依赖失败。使用该模块需要额外依赖，安装方法```pip install --upgrade tiktoken```。")
+                         a=f"분석 프로젝트: {txt}",
+                         b=f"소프트웨어 의존성 가져오기 실패. 이 모듈을 사용하려면 추가 종속성이 필요합니다. 설치 방법은 ```pip install --upgrade tiktoken```입니다.")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
     history = []    # 清空历史，以免输入溢出
@@ -137,17 +137,17 @@ def Markdown英译中(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
 
     if not success:
         # 什么都没有
-        if txt == "": txt = '空空如也的输入栏'
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到本地项目或无权访问: {txt}")
+        if txt == "": txt = '입력창이 아무것도 없어 빈 공간이 있는 것 같습니다.'
+        report_execption(chatbot, history, a = f"분석 프로젝트: {txt}", b = f"\"이 지역의 프로젝트를 찾을 수 없거나 접근 권한이 없습니다: {txt}\"")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
     if len(file_manifest) == 0:
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.md文件: {txt}")
+        report_execption(chatbot, history, a = f"분석 프로젝트: {txt}", b = f".md 파일을 찾을 수 없습니다: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
-    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='en->zh')
+    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='en->ko')
 
 
 
@@ -157,8 +157,8 @@ def Markdown英译中(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
 def Markdown中译英(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, web_port):
     # 基本信息：功能、贡献者
     chatbot.append([
-        "函数插件功能？",
-        "对整个Markdown项目进行翻译。函数插件贡献者: Binary-Husky"])
+        "함수 플러그인 기능이 뭔가요?",
+        "Markdown 프로젝트 전체를 번역합니다. 함수 플러그인 기여자: Binary-Husky"])
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
     # 尝试导入依赖，如果缺少依赖，则给出安装建议
@@ -167,20 +167,20 @@ def Markdown中译英(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
         import glob, os
     except:
         report_execption(chatbot, history,
-                         a=f"解析项目: {txt}",
-                         b=f"导入软件依赖失败。使用该模块需要额外依赖，安装方法```pip install --upgrade tiktoken```。")
+                         a=f"분석 프로젝트: {txt}",
+                         b=f"소프트웨어 의존성 가져오기 실패. 이 모듈을 사용하려면 추가 종속성이 필요합니다. 설치 방법은 ```pip install --upgrade tiktoken```입니다.")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
     history = []    # 清空历史，以免输入溢出
     success, file_manifest, project_folder = get_files_from_everything(txt)
     if not success:
         # 什么都没有
-        if txt == "": txt = '空空如也的输入栏'
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到本地项目或无权访问: {txt}")
+        if txt == "": txt = '입력창이 아무것도 없어 빈 공간이 있는 것 같습니다.'
+        report_execption(chatbot, history, a = f"분석 프로젝트: {txt}", b = f"\"이 지역의 프로젝트를 찾을 수 없거나 접근 권한이 없습니다: {txt}\"")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
     if len(file_manifest) == 0:
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.md文件: {txt}")
+        report_execption(chatbot, history, a = f"분석 프로젝트: {txt}", b = f"'.md' 파일을 찾을 수 없습니다: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
-    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='zh->en')
+    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='ko->en')

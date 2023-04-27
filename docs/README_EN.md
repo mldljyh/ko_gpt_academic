@@ -20,7 +20,7 @@
 Function | Description
 --- | ---
 One-Click Polish | Supports one-click polishing and finding grammar errors in academic papers.
-One-Key Translation Between Chinese and English | One-click translation between Chinese and English.
+One-Key Translation Between Korean and English | One-click translation between Korean and English.
 One-Key Code Interpretation | Can correctly display and interpret code.
 [Custom Shortcut Keys](https://www.bilibili.com/video/BV14s4y1E7jN) | Supports custom shortcut keys.
 [Configure Proxy Server](https://www.bilibili.com/video/BV1rc411W7Dr) | Supports configuring proxy servers.
@@ -195,9 +195,9 @@ Please visit [Deployment Wiki-2](https://github.com/binary-husky/chatgpt_academi
 ## Customizing Convenient Buttons (Customizing Academic Shortcuts)
 Open `core_functional.py` with any text editor and add an item as follows, then restart the program (if the button has been successfully added and visible, both the prefix and suffix support hot modification without the need to restart the program to take effect). For example:
 ```
-"Super English to Chinese translation": {
+"Super English to Korean translation": {
     # Prefix, which will be added before your input. For example, to describe your requirements, such as translation, code interpretation, polishing, etc.
-    "Prefix": "Please translate the following content into Chinese and use a markdown table to interpret the proprietary terms in the text one by one:\n\n", 
+    "Prefix": "Please translate the following content into Korean and use a markdown table to interpret the proprietary terms in the text one by one:\n\n", 
 
     # Suffix, which will be added after your input. For example, combined with the prefix, you can put your input content in quotes.
     "Suffix": "",

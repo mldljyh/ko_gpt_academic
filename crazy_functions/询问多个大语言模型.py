@@ -13,7 +13,7 @@ def 同时问询(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt
     web_port        当前软件运行的端口号
     """
     history = []    # 清空历史，以免输入溢出
-    chatbot.append((txt, "正在同时咨询ChatGPT和ChatGLM……"))
+    chatbot.append((txt, "ChatGPT와 ChatGLM 모두 상담 중입니다."))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面 # 由于请求gpt需要一段时间，我们先及时地做一次界面更新
 
     # llm_kwargs['llm_model'] = 'chatglm&gpt-3.5-turbo&api2d-gpt-3.5-turbo' # 支持任意数量的llm接口，用&符号分隔
@@ -42,7 +42,7 @@ def 同时问询_指定模型(txt, llm_kwargs, plugin_kwargs, chatbot, history, 
     web_port        当前软件运行的端口号
     """
     history = []    # 清空历史，以免输入溢出
-    chatbot.append((txt, "正在同时咨询ChatGPT和ChatGLM……"))
+    chatbot.append((txt, "ChatGPT와 ChatGLM 모두 상담 중입니다."))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面 # 由于请求gpt需要一段时间，我们先及时地做一次界面更新
 
     # llm_kwargs['llm_model'] = 'chatglm&gpt-3.5-turbo&api2d-gpt-3.5-turbo' # 支持任意数量的llm接口，用&符号分隔
