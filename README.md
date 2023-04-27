@@ -98,7 +98,7 @@ chat 분석 보고서 생성 | [기능 플러그인] 실행 후 요약 보고서
 
 1. 프로젝트 다운로드
 ```sh
-git clone https://github.com/binary-husky/chatgpt_academic.git
+git clone https://github.com/mldljyh/ko_gpt_academic.git
 cd chatgpt_academic
 ```
 
@@ -143,7 +143,7 @@ python main.py
 
 ``` sh
 # 프로젝트 다운로드
-git clone https://github.com/binary-husky/chatgpt_academic.git
+git clone https://github.com/mldljyh/ko_gpt_academic.git
 cd chatgpt_academic
 # "Proxy", "API_KEY" 및 "WEB_PORT"(예: 50923) 등을 구성합니다.
 config.py를 임의의 텍스트 편집기로 편집합니다.
