@@ -94,7 +94,7 @@ def 解析PDF(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot,
             if not fast_debug: time.sleep(2)
 
     all_file = ', '.join([os.path.relpath(fp, project_folder) for index, fp in enumerate(file_manifest)])
-    i_say = f'위의 자신의 분석에 기반하여 전문을 요약하고, 학술적인 언어를 사용하여 중국어 요약문을 작성한 후, {all_file}을 포함한 영어 요약문도 작성하십시오.'
+    i_say = f'위의 자신의 분석에 기반하여 전문을 요약하고, 학술적인 언어를 사용하여 한국어 요약문을 작성한 후, {all_file}을 포함한 영어 요약문도 작성하십시오.'
     chatbot.append((i_say, "[Local Message] waiting gpt response."))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 

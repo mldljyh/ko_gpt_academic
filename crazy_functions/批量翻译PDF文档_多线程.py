@@ -97,7 +97,7 @@ def 解析PDF(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot,
             chatbot=chatbot,
             history_array=[[paper_meta] for _ in paper_fragments],
             sys_prompt_array=[
-                "당신은 학술 번역가로서 학술 논문을 정확하게 중국어로 번역하는 역할을 맡아야 합니다. 글에서 매 문장마다 번역하는 데 유의해야 합니다." for _ in paper_fragments],
+                "당신은 학술 번역가로서 학술 논문을 정확하게 한국어로 번역하는 역할을 맡아야 합니다. 글에서 매 문장마다 번역하는 데 유의해야 합니다." for _ in paper_fragments],
             # max_workers=5  # OpenAI所允许的最大并行过载
         )
 

@@ -157,7 +157,7 @@ def get_crazy_functions():
             "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(Latex英文润色)
         },
-        "[테스트 기능] 중국어 Latex 프로젝트 전체 번역 평가(경로 입력 또는 압축 파일 업로드)": {
+        "[테스트 기능] 한국어 Latex 프로젝트 전체 번역 평가(경로 입력 또는 압축 파일 업로드)": {
             # HotReload의 의미는 핫 업데이트이며, 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고 직접 코드를 적용합니다
             "Color": "stop",
             "AsButton": False,  # 드롭다운 메뉴에 추가
