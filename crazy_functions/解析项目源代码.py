@@ -21,7 +21,7 @@ def 解析源代码新(file_manifest, project_folder, llm_kwargs, plugin_kwargs,
             file_content = f.read()
         prefix = "다음에는 프로젝트를 파일 단위로 분석하게 됩니다." if index==0 else ""
         i_say = prefix + f'다음 프로그램 파일에 대해 간단한 개요를 작성해주세요. 파일명은{os.path.relpath(fp, project_folder)}이고, 코드는 ```{file_content}``` 입니다.'
-        i_say_show_user = prefix + f'[{index}/{len(file_manifest)}] 다음 프로그램 파일에 대해 간단한 개요를 작성해주세요:  {os.path.abspath(fp)}'
+        i_say_show_user = prefix + f'[{index+1}/{len(file_manifest)}] 다음 프로그램 파일에 대해 간단한 개요를 작성해주세요:  {os.path.abspath(fp)}'
          # 요청 내용 로딩
         inputs_array.append(i_say)
         inputs_show_user_array.append(i_say_show_user)

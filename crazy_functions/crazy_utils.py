@@ -89,21 +89,21 @@ def request_gpt_model_in_new_thread_with_ui_alive(
                     MAX_TOKEN = 4096
                     EXCEED_ALLO = 512 + 512 * exceeded_cnt
                     inputs, history = input_clipping(inputs, history, max_token_limit=MAX_TOKEN-EXCEED_ALLO)
-                    mutable[0] += f'[Local Message] 警告，文本过长将进行截断，Token溢出数：{n_exceed}。\n\n'
+                    mutable[0] += f'[Local Message] 경고: 텍스트가 너무 길어 토큰 초과로 인해 자르게 됩니다. 초과된 토큰 수：{n_exceed}。\n\n'
                     continue # 返回重试
                 else:
                     # 【选择放弃】
                     tb_str = '```\n' + trimmed_format_exc() + '```'
-                    mutable[0] += f"[Local Message] 警告，在执行过程中遭遇问题, Traceback：\n\n{tb_str}\n\n"
+                    mutable[0] += f"[Local Message] 경고: 실행 중에 문제가 발생했습니다. Traceback: \n\n{tb_str}\n\n"
                     return mutable[0] # 放弃
             except:
                 # 【第三种情况】：其他错误：重试几次
                 tb_str = '```\n' + trimmed_format_exc() + '```'
                 print(tb_str)
-                mutable[0] += f"[Local Message] 警告，在执行过程中遭遇问题, Traceback：\n\n{tb_str}\n\n"
+                mutable[0] += f"[Local Message] 경고: 실행 중에 문제가 발생했습니다. Traceback: \n\n{tb_str}\n\n"
                 if retry_op > 0:
                     retry_op -= 1
-                    mutable[0] += f"[Local Message] 重试中，请稍等 {retry_times_at_unknown_error-retry_op}/{retry_times_at_unknown_error}：\n\n"
+                    mutable[0] += f"[Local Message] 재시도 중입니다. 잠시 기다려주세요.  {retry_times_at_unknown_error-retry_op}/{retry_times_at_unknown_error}：\n\n"
                     if ("Rate limit reached" in tb_str) or ("Too Many Requests" in tb_str):
                         time.sleep(30)
                     time.sleep(5)
@@ -190,7 +190,7 @@ def request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
         gpt_say = ""
         retry_op = retry_times_at_unknown_error
         exceeded_cnt = 0
-        mutable[index][2] = "执行中"
+        mutable[index][2] = "진행 중"
         while True:
             # watchdog error
             if len(mutable[index]) >= 2 and (time.time()-mutable[index][1]) > 5: 
@@ -202,7 +202,7 @@ def request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
                     inputs=inputs, llm_kwargs=llm_kwargs, history=history, 
                     sys_prompt=sys_prompt, observe_window=mutable[index], console_slience=True
                 )
-                mutable[index][2] = "已成功"
+                mutable[index][2] = "완료됨"
                 return gpt_say
             except ConnectionAbortedError as token_exceeded_error:
                 # 【第二种情况】：Token溢出，

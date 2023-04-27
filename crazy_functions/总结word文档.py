@@ -39,15 +39,15 @@ def 解析docx(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot
         )
         this_paper_history = []
         for i, paper_frag in enumerate(paper_fragments):
-            i_say = f'请对下面的文章片段用中文做概述，文件名是{os.path.relpath(fp, project_folder)}，文章内容是 ```{paper_frag}```'
-            i_say_show_user = f'请对下面的文章片段做概述: {os.path.abspath(fp)}的第{i+1}/{len(paper_fragments)}个片段。'
+            i_say = f'아래는 {os.path.relpath(fp, project_folder)}이라는 파일명으로 된 글 조각입니다. 내용은 ```{paper_frag}```입니다.'
+            i_say_show_user = f'이 글 조각에 대한 요약을 한 번 해볼까요? {os.path.abspath(fp)}은(는) {i+1}/{len(paper_fragments)}번째 조각입니다.'
             gpt_say = yield from request_gpt_model_in_new_thread_with_ui_alive(
                 inputs=i_say, 
                 inputs_show_user=i_say_show_user, 
                 llm_kwargs=llm_kwargs,
                 chatbot=chatbot, 
                 history=[],
-                sys_prompt="总结文章。"
+                sys_prompt="글 요약하기."
             )
 
             chatbot[-1] = (i_say_show_user, gpt_say)
@@ -56,25 +56,25 @@ def 解析docx(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot
 
         # 已经对该文章的所有片段总结完毕，如果文章被切分了，
         if len(paper_fragments) > 1:
-            i_say = f"根据以上的对话，总结文章{os.path.abspath(fp)}的主要内容。"
+            i_say = f"위의 대화를 기반으로, {os.path.abspath(fp)}의 내용을 요약하면 무엇인가요?"
             gpt_say = yield from request_gpt_model_in_new_thread_with_ui_alive(
                 inputs=i_say, 
                 inputs_show_user=i_say, 
                 llm_kwargs=llm_kwargs,
                 chatbot=chatbot, 
                 history=this_paper_history,
-                sys_prompt="总结文章。"
+                sys_prompt="글 요약하기."
             )
 
             history.extend([i_say,gpt_say])
             this_paper_history.extend([i_say,gpt_say])
 
         res = write_results_to_file(history)
-        chatbot.append(("完成了吗？", res))
+        chatbot.append(("다 했어요?", res))
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
     res = write_results_to_file(history)
-    chatbot.append(("所有文件都总结完成了吗？", res))
+    chatbot.append(("모든 파일을 요약 완료했나요?", res))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
 
@@ -84,8 +84,8 @@ def 总结word文档(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_pr
 
     # 基本信息：功能、贡献者
     chatbot.append([
-        "函数插件功能？",
-        "批量总结Word文档。函数插件贡献者: JasonGuo1"])
+        "함수 플러그인 기능이 뭐에요?",
+        "여러 개의 워드 문서를 일괄 요약합니다. 함수 플러그인 기여자: JasonGuo1입니다."])
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
     # 尝试导入依赖，如果缺少依赖，则给出安装建议
@@ -93,8 +93,8 @@ def 总结word文档(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_pr
         from docx import Document
     except:
         report_execption(chatbot, history,
-                         a=f"解析项目: {txt}",
-                         b=f"导入软件依赖失败。使用该模块需要额外依赖，安装方法```pip install --upgrade python-docx pywin32```。")
+                         a=f"해석 프로젝트: {txt}",
+                         b=f"소프트웨어 종속성을 가져오는 데 실패했습니다. 이 모듈을 사용하려면 추가 종속성이 필요하며, 설치 방법은 ```pip install --upgrade python-docx pywin32```입니다.")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
@@ -105,8 +105,8 @@ def 总结word文档(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_pr
     if os.path.exists(txt):
         project_folder = txt
     else:
-        if txt == "": txt = '空空如也的输入栏'
-        report_execption(chatbot, history, a=f"解析项目: {txt}", b=f"找不到本地项目或无权访问: {txt}")
+        if txt == "": txt = '아무것도 없는 입력창입니다.'
+        report_execption(chatbot, history, a=f"해석 프로젝트: {txt}", b=f"해당 지역의 프로젝트를 찾을 수 없거나 접근 권한이 없습니다: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
@@ -119,7 +119,7 @@ def 总结word文档(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_pr
 
     # 如果没找到任何文件
     if len(file_manifest) == 0:
-        report_execption(chatbot, history, a=f"解析项目: {txt}", b=f"找不到任何.docx或doc文件: {txt}")
+        report_execption(chatbot, history, a=f"해석 프로젝트: {txt}", b=f".docx나 .doc 파일을 찾을 수 없습니다: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 

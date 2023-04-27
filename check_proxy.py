@@ -6,7 +6,7 @@ def check_proxy(proxies):
         response = requests.get("https://ipapi.co/json/",
                                 proxies=proxies, timeout=4)
         data = response.json()
-        print(f'查询代理的地理位置，返回的结果是{data}')
+        print(f'프록시의 위치를 조회하면, 결과로 {data}가 반환됩니다.')
         if 'country_name' in data:
             country = data['country_name']
             result = f"프록시 설정: {proxies_https}, 프록시 위치: {country}"
@@ -64,19 +64,19 @@ def patch_and_restart(path):
     from colorful import print亮黄, print亮绿, print亮红
     # if not using config_private, move origin config.py as config_private.py
     if not os.path.exists('config_private.py'):
-        print亮黄('由于您没有设置config_private.py私密配置，现将您的现有配置移动至config_private.py以防止配置丢失，',
-              '另外您可以随时在history子文件夹下找回旧版的程序。')
+        print亮黄('"config_private.py"라는 비밀 설정을 설정하지 않으셔서, 설정이 유실되지 않도록 기존 설정을 "config_private.py"로 이동합니다.',
+              '또한, 언제든지 history 하위 폴더에서 이전 버전의 프로그램을 되돌릴 수 있습니다.')
         shutil.copyfile('config.py', 'config_private.py')
     distutils.dir_util.copy_tree(path+'/chatgpt_academic-master', './')
     import subprocess
-    print亮绿('代码已经更新，即将更新pip包依赖……')
+    print亮绿('"코드가 이미 업데이트되었고, 곧 pip 패키지 종속성도 업데이트될 예정입니다..."')
     for i in reversed(range(5)): time.sleep(1); print(i)
     try: 
         subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt'])
     except:
-        print亮红('pip包依赖安装出现问题，需要手动安装新增的依赖库 `python -m pip install -r requirements.txt`，然后在用常规的`python main.py`的方式启动。')
-    print亮绿('更新完成，您可以随时在history子文件夹下找回旧版的程序，5s之后重启')
-    print亮红('假如重启失败，您可能需要手动安装新增的依赖库 `python -m pip install -r requirements.txt`，然后在用常规的`python main.py`的方式启动。')
+        print亮红('pip 패키지 의존성 설치 중 문제가 발생하여 수동으로 추가된 의존성 라이브러리를 설치해야 합니다. `python -m pip install -r requirements.txt`를 사용하여 설치한 후 일반적인 방법으로 `python main.py`를 실행합니다.')
+    print亮绿('업데이트가 완료되었습니다. 이제 언제든지 history 하위 폴더에서 이전 버전의 프로그램을 찾아볼 수 있습니다. 5초 후에 재시작합니다.')
+    print亮红('만약 다시 시작이 실패한다면, 새로운 종속 라이브러리를 수동으로 설치해야 할 수도 있습니다. `python -m pip install -r requirements.txt` 명령어로 설치한 후에 일반적인 방법인 `python main.py`로 시작하십시오.')
     print(' ------------------------------ -----------------------------------')
     for i in reversed(range(8)): time.sleep(1); print(i)
     os.execl(sys.executable, sys.executable, *sys.argv)
@@ -107,39 +107,44 @@ def auto_update():
         remote_json_data = json.loads(response.text)
         remote_version = remote_json_data['version']
         if remote_json_data["show_feature"]:
-            new_feature = "新功能：" + remote_json_data["new_feature"]
+            new_feature = "새로운 기능:" + remote_json_data["new_feature"]
         else:
             new_feature = ""
         with open('./version', 'r', encoding='utf8') as f:
             current_version = f.read()
             current_version = json.loads(current_version)['version']
+        #자동업데이트 비활성화
+        """
         if (remote_version - current_version) >= 0.01:
             from colorful import print亮黄
             print亮黄(
-                f'\n新版本可用。新版本:{remote_version}，当前版本:{current_version}。{new_feature}')
-            print('（1）Github更新地址:\nhttps://github.com/binary-husky/chatgpt_academic\n')
-            user_instruction = input('（2）是否一键更新代码（Y+回车=确认，输入其他/无输入+回车=不更新）？')
+                f'새 버전이 출시되었습니다. 새 버전: {remote_version}, 현재 버전: {current_version}. {new_feature}가 추가되었습니다.')
+            print('(1) Github 업데이트 주소는 다음과 같습니다: https://github.com/binary-husky/chatgpt_academic.')
+            user_instruction = input('코드를 일괄 업데이트할 것인가요? Y+Enter를 눌러 확인하고, 다른 입력/입력 없이 Enter를 누르면 업데이트하지 않습니다.')
             if user_instruction in ['Y', 'y']:
                 path = backup_and_download(current_version, remote_version)
                 try:
                     patch_and_restart(path)
                 except:
-                    print('更新失败。')
+                    print('업데이트가 실패했습니다.')
             else:
-                print('自动更新程序：已禁用')
+                print('자동 업데이트 프로그램: 비활성화됨')
                 return
         else:
             return
+        """
     except:
-        print('自动更新程序：已禁用')
+        #print('자동 업데이트 프로그램: 비활성화됨')
+        pass
+    return
 
 def warm_up_modules():
-    print('正在执行一些模块的预热...')
+    print('일부 모듈을 예열하고 있습니다...')
     from request_llm.bridge_all import model_info
     enc = model_info["gpt-3.5-turbo"]['tokenizer']
-    enc.encode("模块预热", disallowed_special=())
+    enc.encode("모듈 예열입니다.", disallowed_special=())
     enc = model_info["gpt-4"]['tokenizer']
-    enc.encode("模块预热", disallowed_special=())
+    enc.encode("모듈 예열입니다.", disallowed_special=())
 
 if __name__ == '__main__':
     import os
