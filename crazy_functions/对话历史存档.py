@@ -8,7 +8,7 @@ def write_chat_to_file(chatbot, file_name=None):
     import os
     import time
     if file_name is None:
-        file_name = 'chatGPT对话历史' + time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + '.html'
+        file_name = 'chatGPT의 채팅 기록입니다.' + time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + '.html'
     os.makedirs('./gpt_log/', exist_ok=True)
     with open(f'./gpt_log/{file_name}', 'w', encoding='utf8') as f:
         for i, contents in enumerate(chatbot):
@@ -21,7 +21,7 @@ def write_chat_to_file(chatbot, file_name=None):
                 f.write('\n\n')
             f.write('<hr color="red"> \n\n')
 
-    res = '对话历史写入：' + os.path.abspath(f'./gpt_log/{file_name}')
+    res = '대화 기록을 저장합니다:' + os.path.abspath(f'./gpt_log/{file_name}')
     print(res)
     return res
 
@@ -37,6 +37,6 @@ def 对话历史存档(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_
     web_port        当前软件运行的端口号
     """
 
-    chatbot.append(("保存当前对话", f"[Local Message] {write_chat_to_file(chatbot)}"))
+    chatbot.append(("현재 대화를 저장하시겠습니까?", f"[Local Message] {write_chat_to_file(chatbot)}"))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面 # 由于请求gpt需要一段时间，我们先及时地做一次界面更新
 

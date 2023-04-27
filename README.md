@@ -1,4 +1,6 @@
-**gpt_academy 한글화 프로젝트 입니다. gpt-3.5-turbo를 통해 번역하여 오역이 있을 수 있습니다.**
+***gpt_academy 한글화 프로젝트 입니다. gpt-3.5-turbo를 통해 번역하여 오역이 있을 수 있습니다.***
+
+**기능 제안이나 버그 문의는 원 프로젝트인 gpt_academy로 부탁드립니다.**
 
 **[gpt_academy](https://github.com/mldljyh/ko_gpt_academic/)**
 
@@ -11,7 +13,7 @@
 > `pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/`
 >
 
-# <img src="docs/logo.png" width="40" > 학술전용 ChatGPT
+# <img src="docs/logo.png" width="40" > 학술용 ChatGPT
 
 **이 프로젝트를 좋아한다면 Star를 주세요. 더 많은 유용한 학술 바로가기 또는 기능 플러그인을 고안한 경우, issues 또는 pull requests를 부담없이 오픈하세요.**
 

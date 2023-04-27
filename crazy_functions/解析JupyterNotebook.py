@@ -84,9 +84,9 @@ def ipynb解释(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbo
     pfg.run_file_split(max_token_limit=1024)
     n_split = len(pfg.sp_file_contents)
 
-    inputs_array = [r"This is a Jupyter Notebook file, tell me about Each Block in Chinese. Focus Just On Code." +
+    inputs_array = [r"This is a Jupyter Notebook file, tell me about Each Block in Korean. Focus Just On Code." +
                     r"If a block starts with `Markdown` which means it's a markdown block in ipynbipynb. " +
-                    r"Start a new line for a block and block num use Chinese." +
+                    r"Start a new line for a block and block num use Korean." +
                     f"\n\n{frag}" for frag in pfg.sp_file_contents]
     inputs_show_user_array = [f"{f}的分析如下" for f in pfg.sp_file_tag]
     sys_prompt_array = ["You are a professional programmer."] * n_split

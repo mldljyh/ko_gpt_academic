@@ -159,12 +159,12 @@ def write_results_to_file(history, file_name=None):
     import os
     import time
     if file_name is None:
-        # file_name = time.strftime("학술전용ChatGPT%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
-        file_name = '학술전용ChatGPT' + \
+        # file_name = time.strftime("학술용ChatGPT%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
+        file_name = '학술용ChatGPT' + \
             time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
     os.makedirs('./gpt_log/', exist_ok=True)
     with open(f'./gpt_log/{file_name}', 'w', encoding='utf8') as f:
-        f.write('# 학술전용 ChatGPT\n')
+        f.write('# 학술용 ChatGPT\n')
         for i, content in enumerate(history):
             try:    # 这个bug没找到触发条件，暂时先这样顶一下
                 if type(content) != str:

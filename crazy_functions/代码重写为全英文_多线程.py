@@ -32,8 +32,8 @@ def 全项目切换英文(txt, llm_kwargs, plugin_kwargs, chatbot, history, sys_
         import tiktoken
     except:
         report_execption(chatbot, history, 
-            a = f"解析项目: {txt}", 
-            b = f"导入软件依赖失败。使用该模块需要额外依赖，安装方法```pip install --upgrade tiktoken```。")
+            a = f"해석 프로젝트: {txt}", 
+            b = f"소프트웨어 종속성 가져오기가 실패했습니다. 이 모듈을 사용하려면 추가 종속성이 필요하며, 설치 방법은 ```pip install --upgrade tiktoken```입니다.")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
@@ -51,9 +51,9 @@ def 全项目切换英文(txt, llm_kwargs, plugin_kwargs, chatbot, history, sys_
         # if 'test_project' in fp: continue
         with open(fp, 'r', encoding='utf-8', errors='replace') as f:
             file_content = f.read()
-        i_say_show_user =f'[{index}/{len(file_manifest)}] 接下来请将以下代码中包含的所有中文转化为英文，只输出转化后的英文代码，请用代码块输出代码: {os.path.abspath(fp)}'
+        i_say_show_user =f'[{index}/{len(file_manifest)}] Please translate all Korean characters in the following code into English and only output the resulting English code. Please use a code block to output the code: {os.path.abspath(fp)}'
         i_say_show_user_buffer.append(i_say_show_user)
-        chatbot.append((i_say_show_user, "[Local Message] 等待多线程操作，中间过程不予显示."))
+        chatbot.append((i_say_show_user, "[Local Message] 다중 스레드 작업을 기다리는 동안 중간 과정은 표시하지 않습니다."))
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
 
@@ -70,10 +70,10 @@ def 全项目切换英文(txt, llm_kwargs, plugin_kwargs, chatbot, history, sys_
     def thread_worker(fp,index):
         if index > 10: 
             time.sleep(60)
-            print('Openai 限制免费用户每分钟20次请求，降低请求频率中。')
+            print('OpenAI는 무료 사용자의 요청 횟수를 분당 20회로 제한하고, 요청 빈도를 낮추도록 조치했습니다.')
         with open(fp, 'r', encoding='utf-8', errors='replace') as f:
             file_content = f.read()
-        i_say_template = lambda fp, file_content: f'接下来请将以下代码中包含的所有中文转化为英文，只输出代码，文件名是{fp}，文件代码是 ```{file_content}```'
+        i_say_template = lambda fp, file_content: f'Please translate all Korean characters in the following code to English, and only output the code. The file name is {fp} and the file code is ```{file_content}```.'
         try:
             gpt_say = ""
             # 分解代码文件
@@ -86,16 +86,16 @@ def 全项目切换英文(txt, llm_kwargs, plugin_kwargs, chatbot, history, sys_
                 gpt_say += gpt_say_partial
             mutable_return[index] = gpt_say
         except ConnectionAbortedError as token_exceed_err:
-            print('至少一个线程任务Token溢出而失败', e)
+            print('최소한 하나의 스레드 작업 토큰이 오버플로우되어 실패했습니다.', e)
         except Exception as e:
-            print('至少一个线程任务意外失败', e)
+            print('적어도 하나의 스레드 작업이 예기치 않게 실패했습니다.', e)
 
     # 第7步：所有线程同时开始执行任务函数
     handles = [threading.Thread(target=thread_worker, args=(fp,index)) for index, fp in enumerate(file_manifest)]
     for h in handles:
         h.daemon = True
         h.start()
-    chatbot.append(('开始了吗？', f'多线程操作已经开始'))
+    chatbot.append(('시작했어요?', f'"다중 스레드 작업이 이미 시작되었습니다."'))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
     # 第8步：循环轮询各个线程是否执行完毕
@@ -127,12 +127,12 @@ def 全项目切换英文(txt, llm_kwargs, plugin_kwargs, chatbot, history, sys_
                 f.write(gpt_say)
         else:  # 失败
             shutil.copyfile(file_manifest[index], where_to_relocate)
-        chatbot.append((i_say_show_user, f'[Local Message] 已完成{os.path.abspath(fp)}的转化，\n\n存入{os.path.abspath(where_to_relocate)}'))
+        chatbot.append((i_say_show_user, f'[Local Message] {os.path.abspath(fp)}의 변환을 완료했습니다. \n\n{os.path.abspath(where_to_relocate)}에 저장되었습니다.'))
         history.append(i_say_show_user); history.append(gpt_say)
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         time.sleep(1)
 
     # 第10步：备份一个文件
     res = write_results_to_file(history)
-    chatbot.append(("生成一份任务执行报告", res))
+    chatbot.append(("Task execution report를 작성해주세요.", res))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面

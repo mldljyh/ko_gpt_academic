@@ -1,7 +1,7 @@
 # 'primary' 颜色对应 theme.py 中的 primary_hue
 # 'secondary' 颜色对应 theme.py 中的 neutral_hue
 # 'stop' 颜色对应 theme.py 中的 color_er
-# 默认按钮颜色是 secondary
+# 默认버튼 색상是 secondary
 from toolbox import clear_line_break
 
 
@@ -14,7 +14,7 @@ def get_core_functions():
                         r"Furthermore, list all modification and explain the reasons to do so in markdown table." + "\n\n",
             # 后语
             "Suffix":   r"",
-            "Color":    r"secondary",    # 按钮颜色
+            "Color":    r"secondary",    # 버튼 색상
         },
         "한국어 학술 교정": {
             "Prefix":   r"한국어 학술 논문 작성 개선 보조로서, 제공된 텍스트의 맞춤법, 문법, 명확성, 간결성 및 전체적인 가독성을 향상시키는 것이 당신의 임무입니다. " +
