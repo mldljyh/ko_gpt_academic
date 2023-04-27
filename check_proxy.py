@@ -56,22 +56,26 @@ def patch_and_restart(path):
     """
     一键更新协议：覆盖和重启
     """
-    import distutils
+    from distutils import dir_util
     import shutil
     import os
     import sys
     import time
+    import glob
     from colorful import print亮黄, print亮绿, print亮红
     # if not using config_private, move origin config.py as config_private.py
     if not os.path.exists('config_private.py'):
         print亮黄('"config_private.py"라는 비밀 설정을 설정하지 않으셔서, 설정이 유실되지 않도록 기존 설정을 "config_private.py"로 이동합니다.',
               '또한, 언제든지 history 하위 폴더에서 이전 버전의 프로그램을 되돌릴 수 있습니다.')
         shutil.copyfile('config.py', 'config_private.py')
-    distutils.dir_util.copy_tree(path+'/chatgpt_academic-master', './')
-    import subprocess
-    print亮绿('"코드가 이미 업데이트되었고, 곧 pip 패키지 종속성도 업데이트될 예정입니다..."')
+
+    path_new_version = glob.glob(path + '/*-master')[0]
+    dir_util.copy_tree(path_new_version, './')
+    print亮绿('코드가 이미 업데이트되었고, 곧 pip 패키지 종속성도 업데이트될 예정입니다...')
+
     for i in reversed(range(5)): time.sleep(1); print(i)
     try: 
+        import subprocess
         subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt'])
     except:
         print亮红('pip 패키지 의존성 설치 중 문제가 발생하여 수동으로 추가된 의존성 라이브러리를 설치해야 합니다. `python -m pip install -r requirements.txt`를 사용하여 설치한 후 일반적인 방법으로 `python main.py`를 실행합니다.')
