@@ -6,12 +6,12 @@
 
 > **노트**
 >
-> 이 프로젝트에서 사용하는 Gradio 구성 요소의 새로운 pip 패키지(Gradio 3.26~3.27)에는 심각한 버그가 있습니다. 따라서 설치할 때는 엄격히 requirements.txt에서 **지정된 버전**을 선택하십시오.
+> 이 프로젝트에서 사용하는 Gradio 구성 요소의 새로운 pip 패키지(Gradio 3.26~3.27)에는 심각한 버그가 있습니다. 따라서 설치할 때는 엄격히 requirements.txt에서 **지정된 version**을 선택하십시오.
 > 
 > `pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/`
 >
 
-#  ChatGPT 학술 최적화
+# <img src="docs/logo.png" width="40" > ChatGPT 학술 최적화
 
 **이 프로젝트를 좋아한다면 Star를 주세요. 더 많은 유용한 학술 바로가기 또는 기능 플러그인을 고안한 경우, issues 또는 pull requests를 부담없이 오픈하세요.**
 
@@ -21,7 +21,7 @@
 >
 > 1. **빨간색**으로 표시된 기능 플러그인(버튼)만 파일 읽기를 지원합니다. 일부 플러그인은 플러그인 영역의 **드롭다운 메뉴**에 있습니다. 또한 새로운 플러그인의 PR도 **최우선**으로 환영합니다!
 >
-> 2. 이 프로젝트의 각 파일 기능은 자체 분석 보고서 [`self_analysis.md`](https://github.com/binary-husky/chatgpt_academic/wiki/chatgpt-academic%E9%A1%B9%E7%9B%AE%E8%87%AA%E8%AF%91%E8%A7%A3%E6%8A%A5%E5%91%8A)에서 자세히 설명되어 있습니다. 버전이 업데이트되면서 언제든지 관련 기능 플러그인을 클릭하여 GPT를 호출하여 프로젝트의 자체 분석 보고서를 다시 생성할 수 있습니다. 일반적인 문제는 [`위키`](https://github.com/binary-husky/chatgpt_academic/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)에서 확인할 수 있습니다.
+> 2. 이 프로젝트의 각 파일 기능은 자체 분석 보고서 [`self_analysis.md`](https://github.com/binary-husky/chatgpt_academic/wiki/chatgpt-academic%E9%A1%B9%E7%9B%AE%E8%87%AA%E8%AF%91%E8%A7%A3%E6%8A%A5%E5%91%8A)에서 자세히 설명되어 있습니다. version이 업데이트되면서 언제든지 관련 기능 플러그인을 클릭하여 GPT를 호출하여 프로젝트의 자체 분석 보고서를 다시 생성할 수 있습니다. 일반적인 문제는 [`위키`](https://github.com/binary-husky/chatgpt_academic/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)에서 확인할 수 있습니다.
 >
 > 3. OpenAI 및 API2D의 API 키 공존이 지원되며 구성 파일에 `API_KEY="openai-key1,openai-key2,api2d-key3"`와 같이 입력할 수 있습니다. `API_KEY`를 일시적으로 변경해야 할 때는 입력 영역에서 일시적인 `API_KEY`를 입력한 후 엔터 키를 누르면 적용됩니다.
 
@@ -198,18 +198,20 @@ docker run --rm -it --net=host --gpus=all gpt-academic bash
 이 프로젝트의 플러그인 작성 및 디버깅은 기술적으로 어렵지 않으며 Python의 기본지식만 있으면 제공된 템플릿을 모방하여 자신의 플러그인 기능을 구현할 수 있습니다.
 자세한 내용은 [함수 플러그인 가이드](https://github.com/binary-husky/chatgpt_academic/wiki/%ED%95%A8%EC%88%98-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8-%EA%B0%80%EC%9D%B4%EB%93%9C)를 참조하십시오.
 
-## 버전 :
-- 버전 3.2 : 함수 플러그인이 더 많은 매개 변수 인터페이스를 지원합니다 (대화 저장 기능, 모든 언어 코드 해석 + 동시에 임의의 LLM 조합 요청)
-- 버전 3.1 : 여러 GPT 모델을 동시에 쿼리하는 기능 지원! API2D 지원, 여러 apikey의 부하 분산도 지원합니다.
-- 버전 3.0 : chatglm 및 기타 소형 llm 지원
-- 버전 2.6 : 플러그인 구조 재구성, 상호 작용 향상, 더 많은 플러그인 추가
-- 버전 2.5 : 자동 업데이트, 긴 프로젝트 소스 코드를 요약 할 때 텍스트가 너무 길고 토큰이 넘침 문제 해결
-- 버전 2.4 : (1) PDF 전체 문서 번역 기능 추가; (2) 위치 전환 입력 기능 추가; (3) 수직 레이아웃 옵션 추가; (4) 멀티 스레드 함수 플러그인 최적화.
-- 버전 2.3 : 멀티 스레드 상호 작용 강화
-- 버전 2.2 : 함수 플러그인을 지원하는 핫 리로드
-- 버전 2.1 : 축소 가능한 레이아웃
-- 버전 2.0 : 모듈식 함수 플러그인 도입
-- 버전 1.0 : 기본 기능
+## version :
+- version 3.4(Todo): ChatGPT LM 대규모 모델의 로컬 다중 스레드 지원 개선
+- version 3.3: +인터넷 정보 통합 기능
+- version 3.2: 함수 플러그인이 더 많은 매개 변수 인터페이스를 지원합니다 (대화 저장 기능, 모든 언어 코드 해석 + 동시에 임의의 LLM 조합 요청)
+- version 3.1: 여러 GPT 모델을 동시에 쿼리하는 기능 지원! API2D 지원, 여러 apikey의 부하 분산도 지원합니다.
+- version 3.0: chatglm 및 기타 소형 llm 지원
+- version 2.6: 플러그인 구조 재구성, 상호 작용 향상, 더 많은 플러그인 추가
+- version 2.5: 자동 업데이트, 긴 프로젝트 소스 코드를 요약 할 때 텍스트가 너무 길고 토큰이 넘침 문제 해결
+- version 2.4: (1) PDF 전체 문서 번역 기능 추가; (2) 위치 전환 입력 기능 추가; (3) 수직 레이아웃 옵션 추가; (4) 멀티 스레드 함수 플러그인 최적화.
+- version 2.3: 멀티 스레드 상호 작용 강화
+- version 2.2: 함수 플러그인을 지원하는 핫 리로드
+- version 2.1: 축소 가능한 레이아웃
+- version 2.0: 모듈식 함수 플러그인 도입
+- version 1.0: 기본 기능
 
 
 ## 참조 및 학습
