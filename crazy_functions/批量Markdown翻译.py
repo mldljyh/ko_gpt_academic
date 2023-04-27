@@ -54,12 +54,12 @@ def 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, ch
     n_split = len(pfg.sp_file_contents)
 
     #  <-------- 多线程润色开始 ----------> 
-    if language == 'en->zh':
-        inputs_array = ["This is a Markdown file, translate it into Chinese, do not modify any existing Markdown commands:" + 
+    if language == 'en->ko':
+        inputs_array = ["This is a Markdown file, translate it into Korean, do not modify any existing Markdown commands:" + 
                         f"\n\n{frag}" for frag in pfg.sp_file_contents]
         inputs_show_user_array = [f"翻译 {f}" for f in pfg.sp_file_tag]
         sys_prompt_array = ["You are a professional academic paper translator." for _ in range(n_split)]
-    elif language == 'zh->en':
+    elif language == 'ko->en':
         inputs_array = [f"This is a Markdown file, translate it into English, do not modify any existing Markdown commands:" + 
                         f"\n\n{frag}" for frag in pfg.sp_file_contents]
         inputs_show_user_array = [f"翻译 {f}" for f in pfg.sp_file_tag]
@@ -147,7 +147,7 @@ def Markdown英译中(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
-    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='en->zh')
+    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='en->ko')
 
 
 
@@ -183,4 +183,4 @@ def Markdown中译英(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
         report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.md文件: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
-    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='zh->en')
+    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='ko->en')

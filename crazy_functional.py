@@ -82,7 +82,7 @@ def get_crazy_functions():
             "Color": "stop",    # 按钮颜色
             "Function": HotReload(读文章写摘要)
         },
-        "Markdown/Readme英译中": {
+        "Markdown/Readme을 영어에서 한국어로 번역합니다.": {
             # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
             "Color": "stop",
             "Function": HotReload(Markdown英译中)

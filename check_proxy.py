@@ -1,7 +1,7 @@
 
 def check_proxy(proxies):
     import requests
-    proxies_https = proxies['https'] if proxies is not None else '无'
+    proxies_https = proxies['https'] if proxies is not None else '없음'
     try:
         response = requests.get("https://ipapi.co/json/",
                                 proxies=proxies, timeout=4)
@@ -9,13 +9,13 @@ def check_proxy(proxies):
         print(f'查询代理的地理位置，返回的结果是{data}')
         if 'country_name' in data:
             country = data['country_name']
-            result = f"代理配置 {proxies_https}, 代理所在地：{country}"
+            result = f"프록시 설정: {proxies_https}, 프록시 위치: {country}"
         elif 'error' in data:
-            result = f"代理配置 {proxies_https}, 代理所在地：未知，IP查询频率受限"
+            result = f"프록시 설정: {proxies_https}, 프록시 위치: 알 수 없음, IP 조회 주기 제한됨"
         print(result)
         return result
     except:
-        result = f"代理配置 {proxies_https}, 代理所在地查询超时，代理可能无效"
+        result = f"프록시 설정: {proxies_https}, 프록시 위치 조회 시간 초과, 프록시가 유효하지 않을 수 있습니다"
         print(result)
         return result
 
