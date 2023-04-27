@@ -180,7 +180,7 @@ def request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
     executor = ThreadPoolExecutor(max_workers=max_workers)
     n_frag = len(inputs_array)
     # 用户反馈
-    chatbot.append(["请开始多线程操作。", ""])
+    chatbot.append(["멀티스레드 작업을 시작합니다.", ""])
     yield from update_ui(chatbot=chatbot, history=[]) # 刷新界面
     # 跨线程传递
     mutable = [["", time.time(), "等待中"] for _ in range(n_frag)]
@@ -278,7 +278,7 @@ def request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
                             if not done else f'`{mutable[thread_index][2]}`\n\n' 
                             for thread_index, done, obs in zip(range(len(worker_done)), worker_done, observe_win)])
         # 在前端打印些好玩的东西
-        chatbot[-1] = [chatbot[-1][0], f'多线程操作已经开始，完成情况: \n\n{stat_str}' + ''.join(['.']*(cnt % 10+1))]
+        chatbot[-1] = [chatbot[-1][0], f'멀티스레드 작업이 시작되었습니다. 상태:  \n\n{stat_str}' + ''.join(['.']*(cnt % 10+1))]
         yield from update_ui(chatbot=chatbot, history=[]) # 刷新界面
     
     # 异步任务结束

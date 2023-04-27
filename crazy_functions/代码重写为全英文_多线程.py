@@ -109,9 +109,9 @@ def 全项目切换英文(txt, llm_kwargs, plugin_kwargs, chatbot, history, sys_
         observe_win = []
         for thread_index, alive in enumerate(th_alive): 
             observe_win.append("[ ..."+observe_window[thread_index][0][-60:].replace('\n','').replace('```','...').replace(' ','.').replace('<br/>','.....').replace('$','.')+"... ]")
-        stat = [f'执行中: {obs}\n\n' if alive else '已完成\n\n' for alive, obs in zip(th_alive, observe_win)]
+        stat = [f'진행중: {obs}\n\n' if alive else '완료됨\n\n' for alive, obs in zip(th_alive, observe_win)]
         stat_str = ''.join(stat)
-        chatbot[-1] = (chatbot[-1][0], f'多线程操作已经开始，完成情况: \n\n{stat_str}' + ''.join(['.']*(cnt%10+1)))
+        chatbot[-1] = (chatbot[-1][0], f'멀티스레드 작업이 시작되었습니다. 상태:  \n\n{stat_str}' + ''.join(['.']*(cnt%10+1)))
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
     # 第9步：把结果写入文件

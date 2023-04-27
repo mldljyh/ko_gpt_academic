@@ -11,7 +11,7 @@
 > `pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/`
 >
 
-# <img src="docs/logo.png" width="40" > ChatGPT 학술 최적화
+# <img src="docs/logo.png" width="40" > 학술전용 ChatGPT
 
 **이 프로젝트를 좋아한다면 Star를 주세요. 더 많은 유용한 학술 바로가기 또는 기능 플러그인을 고안한 경우, issues 또는 pull requests를 부담없이 오픈하세요.**
 

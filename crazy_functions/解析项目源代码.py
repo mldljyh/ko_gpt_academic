@@ -6,27 +6,27 @@ def 解析源代码新(file_manifest, project_folder, llm_kwargs, plugin_kwargs,
     import os, copy
     from .crazy_utils import request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency
     from .crazy_utils import request_gpt_model_in_new_thread_with_ui_alive
-    msg = '正常'
+    msg = '정상'
     inputs_array = []
     inputs_show_user_array = []
     history_array = []
     sys_prompt_array = []
     report_part_1 = []
 
-    assert len(file_manifest) <= 512, "源文件太多（超过512个）, 请缩减输入文件的数量。或者，您也可以选择删除此行警告，并修改代码拆分file_manifest列表，从而实现分批次处理。"
-    ############################## <第一步，逐个文件分析，多线程> ##################################
+    assert len(file_manifest) <= 512, "소스 파일이 너무 많습니다 (512개 이상). 입력 파일 수를 줄이거나이 경고 행을 삭제하고 코드를 수정하여 file_manifest 목록을 분할하여 일괄 처리하십시오."
+############################## <Step 1, 파일 별 분석, 멀티 스레드> ##################################    
     for index, fp in enumerate(file_manifest):
         # 读取文件
         with open(fp, 'r', encoding='utf-8', errors='replace') as f:
             file_content = f.read()
-        prefix = "接下来请你逐文件分析下面的工程" if index==0 else ""
-        i_say = prefix + f'请对下面的程序文件做一个概述文件名是{os.path.relpath(fp, project_folder)}，文件代码是 ```{file_content}```'
-        i_say_show_user = prefix + f'[{index}/{len(file_manifest)}] 请对下面的程序文件做一个概述: {os.path.abspath(fp)}'
-        # 装载请求内容
+        prefix = "다음에는 프로젝트를 파일 단위로 분석하게 됩니다." if index==0 else ""
+        i_say = prefix + f'다음 프로그램 파일에 대해 간단한 개요를 작성해주세요. 파일명은{os.path.relpath(fp, project_folder)}이고, 코드는 ```{file_content}``` 입니다.'
+        i_say_show_user = prefix + f'[{index}/{len(file_manifest)}] 다음 프로그램 파일에 대해 간단한 개요를 작성해주세요:  {os.path.abspath(fp)}'
+         # 요청 내용 로딩
         inputs_array.append(i_say)
         inputs_show_user_array.append(i_say_show_user)
         history_array.append([])
-        sys_prompt_array.append("你是一个程序架构分析师，正在分析一个源代码项目。你的回答必须简单明了。")
+        sys_prompt_array.append("당신은 프로그램 아키텍처 분석가로서 소스 코드 프로젝트를 분석 중입니다. 답변은 간단하고 명료해야 합니다.")
 
     # 文件读取完成，对每一个源代码文件，生成一个请求线程，发送到chatgpt进行分析
     gpt_response_collection = yield from request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
@@ -43,7 +43,7 @@ def 解析源代码新(file_manifest, project_folder, llm_kwargs, plugin_kwargs,
     report_part_1 = copy.deepcopy(gpt_response_collection)
     history_to_return = report_part_1
     res = write_results_to_file(report_part_1)
-    chatbot.append(("完成？", "逐个文件分析已完成。" + res + "\n\n正在开始汇总。"))
+    chatbot.append(("완료？", "파일 별 분석이 완료되었습니다." + res + "\n\n요약 작업을 시작합니다."))
     yield from update_ui(chatbot=chatbot, history=history_to_return) # 刷新界面
 
     ############################## <第二步，综合，单线程，分组+迭代处理> ##################################
@@ -62,16 +62,16 @@ def 解析源代码新(file_manifest, project_folder, llm_kwargs, plugin_kwargs,
         previous_iteration_files.extend([os.path.relpath(fp, project_folder) for index, fp in enumerate(this_iteration_file_manifest)])
         previous_iteration_files_string = ', '.join(previous_iteration_files)
         current_iteration_focus = ', '.join([os.path.relpath(fp, project_folder) for index, fp in enumerate(this_iteration_file_manifest)])
-        i_say = f'用一张Markdown表格简要描述以下文件的功能：{previous_iteration_files_string}。根据以上分析，用一句话概括程序的整体功能。'
-        inputs_show_user = f'根据以上分析，对程序的整体功能和构架重新做出概括，由于输入长度限制，可能需要分组处理，本组文件为 {current_iteration_focus} + 已经汇总的文件组。'
+        i_say = f'다음 Markdown 표를 사용하여 다음 파일의 기능을 간략하게 설명하십시오 : {previous_iteration_files_string}. 이 분석을 기반으로 프로그램의 전체 기능을 요약하는 한 문장을 작성하십시오.'
+        inputs_show_user = f'이전 분석을 바탕으로 프로그램의 전체 기능과 아키텍처를 새롭게 요약하십시오. 입력 길이 제한으로 인해 그룹 처리가 필요할 수 있습니다. 이 그룹에 속하는 파일은 {current_iteration_focus} 와 이전 파일 그룹입니다.'
         this_iteration_history = copy.deepcopy(this_iteration_gpt_response_collection)
         this_iteration_history.append(last_iteration_result)
-        # 裁剪input
+         # 이전 분석
         inputs, this_iteration_history_feed = input_clipping(inputs=i_say, history=this_iteration_history, max_token_limit=2560)
         result = yield from request_gpt_model_in_new_thread_with_ui_alive(
             inputs=inputs, inputs_show_user=inputs_show_user, llm_kwargs=llm_kwargs, chatbot=chatbot,
             history=this_iteration_history_feed,   # 迭代之前的分析
-            sys_prompt="你是一个程序架构分析师，正在分析一个项目的源代码。")
+            sys_prompt="당신은 프로그램 아키텍처 분석가로서 소스 코드 프로젝트를 분석 중입니다.")
         report_part_2.extend([i_say, result])
         last_iteration_result = result
 
@@ -81,7 +81,7 @@ def 解析源代码新(file_manifest, project_folder, llm_kwargs, plugin_kwargs,
     ############################## <END> ##################################
     history_to_return.extend(report_part_2)
     res = write_results_to_file(history_to_return)
-    chatbot.append(("完成了吗？", res))
+    chatbot.append(("완료？", res))
     yield from update_ui(chatbot=chatbot, history=history_to_return) # 刷新界面
 
 
@@ -106,13 +106,13 @@ def 解析一个Python项目(txt, llm_kwargs, plugin_kwargs, chatbot, history, s
     if os.path.exists(txt):
         project_folder = txt
     else:
-        if txt == "": txt = '空空如也的输入栏'
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到本地项目或无权访问: {txt}")
+        if txt == "": txt = '입력란이 비어 있습니다.'
+        report_execption(chatbot, history, a = f"프로젝트 분석: {txt}", b = f"로컬 프로젝트를 찾을 수 없거나 액세스할 수 없습니다: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
     file_manifest = [f for f in glob.glob(f'{project_folder}/**/*.py', recursive=True)]
     if len(file_manifest) == 0:
-        report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何python文件: {txt}")
+        report_execption(chatbot, history, a = f"프로젝트 분석: {txt}", b = f"Python 파일을 찾을 수 없습니다:  {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
     yield from 解析源代码新(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt)

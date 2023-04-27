@@ -24,84 +24,84 @@ def get_crazy_functions():
     from crazy_functions.批量Markdown翻译 import Markdown英译中
     function_plugins = {
 
-        "解析整个Python项目": {
-            "Color": "stop",    # 按钮颜色
+        "Python 프로젝트 분석": {
+            "Color": "stop",    # 버튼 색상
             "Function": HotReload(解析一个Python项目)
         },
-        "保存当前的对话": {
+        "현재 대화 저장": {
             "AsButton":False,
             "Function": HotReload(对话历史存档)
         },
-        "[测试功能] 解析Jupyter Notebook文件": {
+        "[테스트 기능] Jupyter Notebook 파일 분석": {
             "Color": "stop",
             "AsButton":False,
             "Function": HotReload(解析ipynb文件),
-            "AdvancedArgs": True, # 调用时，唤起高级参数输入区（默认False）
-            "ArgsReminder": "若输入0，则不解析notebook中的Markdown块", # 高级参数输入区的显示提示
+            "AdvancedArgs": True,  # 호출 시 고급 매개변수 입력 영역 활성화 (기본값: False)
+            "ArgsReminder": "0을 입력하면 노트북의 Markdown 블록을 분석하지 않습니다", # 고급 매개변수 입력 영역의 표시 팁
         },
-        "批量总结Word文档": {
+        "Word 문서 일괄 요약": {
             "Color": "stop",
             "Function": HotReload(总结word文档)
         },
-        "解析整个C++项目头文件": {
+        "C++ 프로젝트 헤더 파일 분석": {
             "Color": "stop",    # 按钮颜色
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(解析一个C项目的头文件)
         },
-        "解析整个C++项目（.cpp/.hpp/.c/.h）": {
+        "C++ 프로젝트(.cpp/.hpp/.c/.h) 분석）": {
             "Color": "stop",    # 按钮颜色
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(解析一个C项目)
         },
-        "解析整个Go项目": {
+        "Go 프로젝트 분석": {
             "Color": "stop",    # 按钮颜色
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(解析一个Golang项目)
         },
-        "解析整个Java项目": {
+        "Java 프로젝트 분석": {
             "Color": "stop",  # 按钮颜色
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(解析一个Java项目)
         },
-        "解析整个React项目": {
+        "React 프로젝트 분석": {
             "Color": "stop",  # 按钮颜色
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(解析一个Rect项目)
         },
-        "解析整个Lua项目": {
+        "Lua 프로젝트 분석": {
             "Color": "stop",    # 按钮颜色
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(解析一个Lua项目)
         },
-        "解析整个CSharp项目": {
+        "CSharp 프로젝트 분석": {
             "Color": "stop",    # 按钮颜色
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(解析一个CSharp项目)
         },
-        "读Tex论文写摘要": {
+        "Tex 논문 읽고 요약 작성": {
             "Color": "stop",    # 按钮颜色
             "Function": HotReload(读文章写摘要)
         },
-        "Markdown/Readme을 영어에서 한국어로 번역합니다.": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+        "Markdown/Readme를 한국어로 번역합니다.": {
+            # HotReload는 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고도 코드가 즉시 적용되도록 함
             "Color": "stop",
             "Function": HotReload(Markdown英译中)
         },
-        "批量生成函数注释": {
+        "일괄 함수 주석 생성": {
             "Color": "stop",    # 按钮颜色
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(批量生成函数注释)
         },
-        "[多线程Demo] 解析此项目本身（源码自译解）": {
+        "[다중 스레드 데모] 프로젝트 자체 분석 (소스 코드 자체 번역)": {
             "Function": HotReload(解析项目本身)
         },
-        "[多线程demo] 把本项目源代码切换成全英文": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+        "[다중 스레드 데모] 프로젝트 소스 코드 전체를 영어로 변경": {
+            # HotReload는 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고도 코드가 즉시 적용되도록 함
             "AsButton": False,  # 加入下拉菜单中
             "Function": HotReload(全项目切换英文)
         },
-        "[函数插件模板Demo] 历史上的今天": {
-            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
+        "[함수 플러그인 템플릿 데모] 오늘의 역사": {
+            # HotReload는 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고도 코드가 즉시 적용되도록 함
             "Function": HotReload(高阶功能模板函数)
         },
 

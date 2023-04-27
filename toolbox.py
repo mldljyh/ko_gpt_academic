@@ -159,12 +159,12 @@ def write_results_to_file(history, file_name=None):
     import os
     import time
     if file_name is None:
-        # file_name = time.strftime("chatGPT分析报告%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
-        file_name = 'chatGPT分析报告' + \
+        # file_name = time.strftime("학술전용ChatGPT%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
+        file_name = '학술전용ChatGPT' + \
             time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
     os.makedirs('./gpt_log/', exist_ok=True)
     with open(f'./gpt_log/{file_name}', 'w', encoding='utf8') as f:
-        f.write('# chatGPT 分析报告\n')
+        f.write('# 학술전용 ChatGPT\n')
         for i, content in enumerate(history):
             try:    # 这个bug没找到触发条件，暂时先这样顶一下
                 if type(content) != str:
@@ -175,7 +175,7 @@ def write_results_to_file(history, file_name=None):
                 f.write('## ')
             f.write(content)
             f.write('\n\n')
-    res = '以上材料已经被写入' + os.path.abspath(f'./gpt_log/{file_name}')
+    res = '작성 완료' + os.path.abspath(f'./gpt_log/{file_name}')
     print(res)
     return res
 
@@ -437,10 +437,10 @@ def on_file_uploaded(files, chatbot, txt, txt2, checkboxes):
         txt = f'private_upload/{time_tag}'
         txt2 = ""
     moved_files_str = '\t\n\n'.join(moved_files)
-    chatbot.append(['我上传了文件，请查收',
-                    f'[Local Message] 收到以下文件: \n\n{moved_files_str}' +
-                    f'\n\n调用路径参数已自动修正到: \n\n{txt}' +
-                    f'\n\n现在您点击任意“红颜色”标识的函数插件时，以上文件将被作为输入参数'+err_msg])
+    chatbot.append(['파일을 업로드했습니다. 확인해주세요.',
+                    f'[Local Message] 다음 파일을 받았습니다:: \n\n{moved_files_str}' +
+                    f'\n\n호출 경로 매개변수가 자동으로 수정되었습니다.: \n\n{txt}' +
+                    f'\n\n이제 “빨간색”으로 표시된 모든 함수 플러그인을 클릭할 때 위의 파일이 입력 매개변수로 사용됩니다.'+err_msg])
     return chatbot, txt, txt2
 
 
@@ -450,7 +450,7 @@ def on_report_generated(files, chatbot):
     if len(report_files) == 0:
         return None, chatbot
     # files.extend(report_files)
-    chatbot.append(['汇总报告如何远程获取？', '汇总报告已经添加到右侧“文件上传区”（可能处于折叠状态），请查收。'])
+    chatbot.append(['종합 보고서 파일을 어떻게 받을 수 있나요?', '종합 보고서는 오른쪽의 "파일 업로드 영역"에 추가되었습니다 (접힌 상태일 수 있음), 확인해주세요.'])    
     return report_files, chatbot
 
 def is_openai_api_key(key):
