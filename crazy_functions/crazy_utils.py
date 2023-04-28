@@ -72,7 +72,7 @@ def request_gpt_model_in_new_thread_with_ui_alive(
         while True:
             # watchdog error
             if len(mutable) >= 2 and (time.time()-mutable[1]) > 5: 
-                raise RuntimeError("检测到程序终止。")
+                raise RuntimeError("프로그램이 종료되었습니다.")
             try:
                 # 【第一种情况】：顺利完成
                 result = predict_no_ui_long_connection(
@@ -183,7 +183,7 @@ def request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
     chatbot.append(["멀티스레드 작업을 시작합니다.", ""])
     yield from update_ui(chatbot=chatbot, history=[]) # 刷新界面
     # 跨线程传递
-    mutable = [["", time.time(), "等待中"] for _ in range(n_frag)]
+    mutable = [["", time.time(), "대기중"] for _ in range(n_frag)]
 
     # 子线程任务
     def _req_gpt(index, inputs, history, sys_prompt):
@@ -194,7 +194,7 @@ def request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
         while True:
             # watchdog error
             if len(mutable[index]) >= 2 and (time.time()-mutable[index][1]) > 5: 
-                raise RuntimeError("检测到程序终止。")
+                raise RuntimeError("프로그램이 종료되었습니다.")
             try:
                 # 【第一种情况】：顺利完成
                 # time.sleep(10); raise RuntimeError("测试")
@@ -214,38 +214,38 @@ def request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
                     MAX_TOKEN = 4096
                     EXCEED_ALLO = 512 + 512 * exceeded_cnt
                     inputs, history = input_clipping(inputs, history, max_token_limit=MAX_TOKEN-EXCEED_ALLO)
-                    gpt_say += f'[Local Message] 警告，文本过长将进行截断，Token溢出数：{n_exceed}。\n\n'
-                    mutable[index][2] = f"截断重试"
+                    gpt_say += f'[Local Message] 경고, 텍스트가 너무 길어서 잘릴 수 있습니다. 토큰 오버플로 수: {n_exceed}.'
+                    mutable[index][2] = f"잘못된 작업을 다시 시도합니다."
                     continue # 返回重试
                 else:
                     # 【选择放弃】
                     tb_str = '```\n' + trimmed_format_exc() + '```'
-                    gpt_say += f"[Local Message] 警告，线程{index}在执行过程中遭遇问题, Traceback：\n\n{tb_str}\n\n"
-                    if len(mutable[index][0]) > 0: gpt_say += "此线程失败前收到的回答：\n\n" + mutable[index][0]
-                    mutable[index][2] = "输入过长已放弃"
+                    gpt_say += f"[Local Message] 경고, 스레드 {index} 실행 중 문제가 발생하였습니다. 추적 정보: \n\n{tb_str}\n\n"
+                    if len(mutable[index][0]) > 0: gpt_say += "이 쓰레드가 실패하기 전에 받은 답변:" + mutable[index][0]
+                    mutable[index][2] = "입력이 너무 길어서 포기했습니다."
                     return gpt_say # 放弃
             except:
                 # 【第三种情况】：其他错误
                 tb_str = '```\n' + trimmed_format_exc() + '```'
                 print(tb_str)
-                gpt_say += f"[Local Message] 警告，线程{index}在执行过程中遭遇问题, Traceback：\n\n{tb_str}\n\n"
-                if len(mutable[index][0]) > 0: gpt_say += "此线程失败前收到的回答：\n\n" + mutable[index][0]
+                gpt_say += f"[Local Message] 경고, 스레드 {index} 실행 중 문제가 발생하였습니다. 추적 정보: \n\n{tb_str}\n\n"
+                if len(mutable[index][0]) > 0: gpt_say += "이 쓰레드가 실패하기 전에 받은 답변:" + mutable[index][0]
                 if retry_op > 0: 
                     retry_op -= 1
                     wait = random.randint(5, 20)
                     if ("Rate limit reached" in tb_str) or ("Too Many Requests" in tb_str):
                         wait = wait * 3
-                        fail_info = "OpenAI绑定信用卡可解除频率限制 "
+                        fail_info = "OpenAI에서 신용카드를 바인딩하면 빈번한 제한을 해제할 수 있습니다."
                     else:
                         fail_info = ""
                     # 也许等待十几秒后，情况会好转
                     for i in range(wait):
-                        mutable[index][2] = f"{fail_info}等待重试 {wait-i}"; time.sleep(1)
+                        mutable[index][2] = f"{fail_info}를 재시도 대기 중입니다. {wait-i}초 후에 다시 시도해주세요."; time.sleep(1)
                     # 开始重试
-                    mutable[index][2] = f"重试中 {retry_times_at_unknown_error-retry_op}/{retry_times_at_unknown_error}"
+                    mutable[index][2] = f"알 수 없는 오류로 인해 {retry_op}을(를) 다시 시도 중입니다. 다시 시도한 횟수: {retry_times_at_unknown_error-retry_op} / {retry_times_at_unknown_error}번."
                     continue # 返回重试
                 else:
-                    mutable[index][2] = "已失败"
+                    mutable[index][2] = "이미 실패했습니다."
                     wait = 5
                     time.sleep(5)
                     return gpt_say # 放弃
@@ -315,7 +315,7 @@ def breakdown_txt_to_satisfy_token_limit(txt, get_token_fn, limit):
                 if get_token_fn(prev) < limit:
                     break
             if cnt == 0:
-                raise RuntimeError("存在一行极长的文本！")
+                raise RuntimeError("길이가 매우 긴 텍스트가 존재합니다!")
             # print(len(post))
             # 列表递归接龙
             result = [prev]
@@ -334,7 +334,7 @@ def force_breakdown(txt, limit, get_token_fn):
     for i in reversed(range(len(txt))):
         if get_token_fn(txt[:i]) < limit:
             return txt[:i], txt[i:]
-    return "Tiktoken未知错误", "Tiktoken未知错误"
+    return "\"Tiktoken\"에서 알 수 없는 오류가 발생했습니다.", "\"Tiktoken\"에서 알 수 없는 오류가 발생했습니다."
 
 def breakdown_txt_to_satisfy_token_limit_for_pdf(txt, get_token_fn, limit):
     # 递归
@@ -358,7 +358,7 @@ def breakdown_txt_to_satisfy_token_limit_for_pdf(txt, get_token_fn, limit):
                 if break_anyway:
                     prev, post = force_breakdown(txt_tocut, limit, get_token_fn)
                 else:
-                    raise RuntimeError(f"存在一行极长的文本！{txt_tocut}")
+                    raise RuntimeError(f"길이가 매우 긴 텍스트가 존재합니다! {txt_tocut}")
             # print(len(post))
             # 列表递归接龙
             result = [prev]

@@ -71,7 +71,7 @@ def 解析PDF(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot,
 
         prefix = "다음으로, 아래의 논문 파일을 파일별로 분석하시고, 내용을 요약해주세요." if index==0 else ""
         i_say = prefix + f'아래 문서 조각에 대해 한국어로 개요를 작성하여 주세요. 파일 이름은 {os.path.relpath(fp, project_folder)}, 문서 내용은 ```{file_content}```입니다.'
-        i_say_show_user = prefix + f'"[{index}/{len(file_manifest)}] 이 아래의 글 조각에 대해 개요를 작성해주세요: {os.path.abspath(fp)}"'
+        i_say_show_user = prefix + f'"[{index+1}/{len(file_manifest)}] 이 아래의 글 조각에 대해 개요를 작성해주세요: {os.path.abspath(fp)}"'
         chatbot.append((i_say_show_user, "[Local Message] waiting gpt response."))
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 

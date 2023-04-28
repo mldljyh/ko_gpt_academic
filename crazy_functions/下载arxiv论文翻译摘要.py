@@ -189,6 +189,6 @@ def 下载arxiv论文并翻译摘要(txt, llm_kwargs, plugin_kwargs, chatbot, hi
     # 重置文件的创建时间
     shutil.copyfile(pdf_path, f'./gpt_log/{os.path.basename(pdf_path)}'); os.remove(pdf_path)
     res = write_results_to_file(history)
-    chatbot.append(("完成了吗？", res + "\n\nPDF文件也已经下载"))
+    chatbot.append(("완료되었나요?", res + "\n\nPDF 파일도 다운로드되었습니다."))
     yield from update_ui(chatbot=chatbot, history=history, msg=msg) # 刷新界面
 
