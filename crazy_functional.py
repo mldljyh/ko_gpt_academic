@@ -73,7 +73,7 @@ def get_crazy_functions():
             "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析一个Lua项目)
         },
-        "CSharp 프로젝트 분석": {
+        "C# 프로젝트 분석": {
             "Color": "stop",    # 버튼 색상
             "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析一个CSharp项目)

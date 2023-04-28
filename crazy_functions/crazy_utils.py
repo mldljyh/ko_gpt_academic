@@ -183,7 +183,7 @@ def request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
     chatbot.append(["멀티스레드 작업을 시작합니다.", ""])
     yield from update_ui(chatbot=chatbot, history=[]) # 刷新界面
     # 跨线程传递
-    mutable = [["", time.time(), "等待中"] for _ in range(n_frag)]
+    mutable = [["", time.time(), "대기중"] for _ in range(n_frag)]
 
     # 子线程任务
     def _req_gpt(index, inputs, history, sys_prompt):

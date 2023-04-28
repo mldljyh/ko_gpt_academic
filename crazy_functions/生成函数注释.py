@@ -11,7 +11,7 @@ def 生成函数注释(file_manifest, project_folder, llm_kwargs, plugin_kwargs,
             file_content = f.read()
 
         i_say = f'아래의 프로그램 파일에 대한 요약과 모든 함수에 대한 주석을 생성해주세요. markdown 테이블을 사용하여 결과를 출력하며, 파일명은 {os.path.relpath(fp, project_folder)}이고 파일 내용은```{file_content}```입니다.'
-        i_say_show_user = f'"[{index}/{len(file_manifest)}] 이 프로그램 파일에 대해 개요를 작성하고 파일 내 모든 함수에 주석을 달아주세요: {os.path.abspath(fp)}"'
+        i_say_show_user = f'"[{index+1}/{len(file_manifest)}] 이 프로그램 파일에 대해 개요를 작성하고 파일 내 모든 함수에 주석을 달아주세요: {os.path.abspath(fp)}"'
         chatbot.append((i_say_show_user, "[Local Message] waiting gpt response."))
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
