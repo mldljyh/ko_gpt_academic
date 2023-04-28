@@ -104,7 +104,7 @@ def 解析PDF(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot,
         # 整理报告的格式
         for i,k in enumerate(gpt_response_collection): 
             if i%2==0:
-                gpt_response_collection[i] = f"\n\n---\n\n ## 원문[{i//2}/{len(gpt_response_collection)//2}]： \n\n {paper_fragments[i//2].replace('#', '')}  \n\n---\n\n ## 翻译[{i//2}/{len(gpt_response_collection)//2}]：\n "
+                gpt_response_collection[i] = f"\n\n---\n\n ## 원문[{i//2+1}/{len(gpt_response_collection)//2}]： \n\n {paper_fragments[i//2].replace('#', '')}  \n\n---\n\n ## 번역[{i//2+1}/{len(gpt_response_collection)//2}]：\n "
             else:
                 gpt_response_collection[i] = gpt_response_collection[i]
         final = ["1. 논문 개요", paper_meta_info.replace('# ', '### ') + '\n\n---\n\n', "2. 논문 번역", ""]
