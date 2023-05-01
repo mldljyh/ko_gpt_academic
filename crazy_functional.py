@@ -73,7 +73,7 @@ def get_crazy_functions():
             "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析一个Lua项目)
         },
-        "CSharp 프로젝트 분석": {
+        "C# 프로젝트 분석": {
             "Color": "stop",    # 버튼 색상
             "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析一个CSharp项目)
@@ -175,7 +175,7 @@ def get_crazy_functions():
             "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(Latex英译中)
         },
-        "[테스트 기능] 일괄 Markdown 중-영 번역(경로 입력 또는 압축 파일 업로드)": {
+        "[테스트 기능] 일괄 Markdown 한-영 번역(경로 입력 또는 압축 파일 업로드)": {
             # HotReload의 의미는 핫 업데이트이며, 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고 직접 코드를 적용합니다
             "Color": "stop",
             "AsButton": False,  # 드롭다운 메뉴에 추가

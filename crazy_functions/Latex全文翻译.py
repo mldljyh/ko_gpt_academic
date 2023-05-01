@@ -97,7 +97,7 @@ def 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, ch
     create_report_file_name = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + f"-chatgpt.polish.md"
     res = write_results_to_file(gpt_response_collection, file_name=create_report_file_name)
     history = gpt_response_collection
-    chatbot.append((f"{fp}完成了吗？", res))
+    chatbot.append((f"{fp}완료되었나요?", res))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
 

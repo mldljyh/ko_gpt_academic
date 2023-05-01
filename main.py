@@ -185,7 +185,9 @@ def main():
         print(f"(밝은 컬러 테마): http://localhost:{PORT}")
         print(f"(어두운 테마): http://localhost:{PORT}/?__dark-theme=true")
         def open():
-            time.sleep(2)       # "브라우저를 열어주세요."
+
+            time.sleep(2)       # 브라우저를 열어주세요.
+
             DARK_MODE, = get_conf('DARK_MODE')
             if DARK_MODE: webbrowser.open_new_tab(f"http://localhost:{PORT}/?__dark-theme=true")
             else: webbrowser.open_new_tab(f"http://localhost:{PORT}")

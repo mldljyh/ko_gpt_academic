@@ -42,8 +42,8 @@ def 解析PDF(file_name, llm_kwargs, plugin_kwargs, chatbot, history, system_pro
     if n_fragment >= 20: print('글이 너무 길어서 예상한 효과를 얻을 수 없습니다.')
     for i in range(n_fragment):
         NUM_OF_WORD = MAX_WORD_TOTAL // n_fragment
-        i_say = f"Read this section, recapitulate the content of this section with less than {NUM_OF_WORD} words: {paper_fragments[i]}"
-        i_say_show_user = f"[{i+1}/{n_fragment}] Read this section, recapitulate the content of this section with less than {NUM_OF_WORD} words: {paper_fragments[i][:200]}"
+        i_say = f"다음 내용을 읽고, {NUM_OF_WORD}자 미만으로 이 섹션의 내용을 요약해주세요: {paper_fragments[i]}"
+        i_say_show_user = f"[{i+1}/{n_fragment}] 다음 내용을 읽고, [{i+1}/{n_fragment}] {paper_fragments[i][:200]} 내용을 {NUM_OF_WORD}자 미만으로 요약해주세요"
         gpt_say = yield from request_gpt_model_in_new_thread_with_ui_alive(i_say, i_say_show_user,  # i_say=真正给chatgpt的提问， i_say_show_user=给用户看的提问
                                                                            llm_kwargs, chatbot, 
                                                                            history=["The main idea of the previous section is?", last_iteration_result], # 迭代上一次的结果

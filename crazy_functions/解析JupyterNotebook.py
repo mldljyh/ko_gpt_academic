@@ -88,7 +88,7 @@ def ipynb解释(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbo
                     r"If a block starts with `Markdown` which means it's a markdown block in ipynbipynb. " +
                     r"Start a new line for a block and block num use Korean." +
                     f"\n\n{frag}" for frag in pfg.sp_file_contents]
-    inputs_show_user_array = [f"{f}的分析如下" for f in pfg.sp_file_tag]
+    inputs_show_user_array = [f"{f}의 분석은 다음과 같습니다." for f in pfg.sp_file_tag]
     sys_prompt_array = ["You are a professional programmer."] * n_split
 
     gpt_response_collection = yield from request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
@@ -104,20 +104,20 @@ def ipynb解释(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbo
 
     #  <-------- 整理结果，退出 ---------->
     block_result = "  \n".join(gpt_response_collection)
-    chatbot.append(("解析的结果如下", block_result))
-    history.extend(["解析的结果如下", block_result])
+    chatbot.append(("해석 결과는 다음과 같습니다.", block_result))
+    history.extend(["해석 결과는 다음과 같습니다.", block_result])
     yield from update_ui(chatbot=chatbot, history=history)  # 刷新界面
 
     #  <-------- 写入文件，退出 ---------->
     res = write_results_to_file(history)
-    chatbot.append(("完成了吗？", res))
+    chatbot.append(("완료되었나요?", res))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
 @CatchException
 def 解析ipynb文件(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, web_port):
     chatbot.append([
-        "函数插件功能？",
-        "对IPynb文件进行解析。Contributor: codycjy."])
+        "함수 플러그인 기능이 뭐에요?",
+        "IPynb 파일을 분석합니다. 기고자: codycjy."])
     yield from update_ui(chatbot=chatbot, history=history)  # 刷新界面
 
     history = []    # 清空历史
@@ -127,9 +127,9 @@ def 解析ipynb文件(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
         project_folder = txt
     else:
         if txt == "":
-            txt = '空空如也的输入栏'
+            txt = '아무것도 채워져 있지 않은 입력란.'
         report_execption(chatbot, history,
-                         a=f"解析项目: {txt}", b=f"找不到本地项目或无权访问: {txt}")
+                         a=f"분석 프로젝트: {txt}", b=f"이 지역의 프로젝트를 찾을 수 없거나 접근 권한이 없습니다: {txt}")
         yield from update_ui(chatbot=chatbot, history=history)  # 刷新界面
         return
     if txt.endswith('.ipynb'):
@@ -139,7 +139,7 @@ def 解析ipynb文件(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
             f'{project_folder}/**/*.ipynb', recursive=True)]
     if len(file_manifest) == 0:
         report_execption(chatbot, history,
-                         a=f"解析项目: {txt}", b=f"找不到任何.ipynb文件: {txt}")
+                         a=f"분석 프로젝트: {txt}", b=f".ipynb 파일을 찾을 수 없습니다: {txt}")
         yield from update_ui(chatbot=chatbot, history=history)  # 刷新界面
         return
     yield from ipynb解释(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, )

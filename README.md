@@ -1,4 +1,4 @@
-***gpt_academy 한글화 프로젝트 입니다. gpt-3.5-turbo를 통해 번역하여 오역이 있을 수 있습니다.***
+**gpt_academic 한글화 프로젝트 입니다. gpt-3.5-turbo를 통해 번역하여 오역이 있을 수 있습니다.**
 
 **기능 제안이나 버그 문의는 원 프로젝트인 gpt_academy로 부탁드립니다.**
 
@@ -13,7 +13,9 @@
 > `pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/`
 >
 
-# <img src="docs/logo.png" width="40" > 학술용 ChatGPT
+
+# <img src="docs/logo.png" width="40" > 학술용 GPT (ChatGPT Academic)
+
 
 **이 프로젝트를 좋아한다면 Star를 주세요. 더 많은 유용한 학술 바로가기 또는 기능 플러그인을 고안한 경우, issues 또는 pull requests를 부담없이 오픈하세요.**
 
@@ -96,7 +98,7 @@ chat 분석 보고서 생성 | [기능 플러그인] 실행 후 요약 보고서
 
 1. 프로젝트 다운로드
 ```sh
-git clone https://github.com/binary-husky/chatgpt_academic.git
+git clone https://github.com/mldljyh/ko_gpt_academic.git
 cd chatgpt_academic
 ```
 
@@ -108,7 +110,9 @@ cd chatgpt_academic
 
 3. 종속성 설치
 ```sh
+
 # (선택1: python이 익숙한 경우) 추천
+
 python -m pip install -r requirements.txt
 # 참고: 공식 pip source 또는 Ali pip source를 사용하세요. 다른 pip sources(일부 대학의 pip)에서 문제가 발생할 수 있습니다. 일시적으로 pip source를 변경하는 방법: python -m pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
 
@@ -139,7 +143,7 @@ python main.py
 
 ``` sh
 # 프로젝트 다운로드
-git clone https://github.com/binary-husky/chatgpt_academic.git
+git clone https://github.com/mldljyh/ko_gpt_academic.git
 cd chatgpt_academic
 # "Proxy", "API_KEY" 및 "WEB_PORT"(예: 50923) 등을 구성합니다.
 config.py를 임의의 텍스트 편집기로 편집합니다.
@@ -195,12 +199,14 @@ docker run --rm -it --net=host --gpus=all gpt-academic bash
 <img src = "https://user-images.githubusercontent.com/96192199/226899272-477c2134-ed71-4326-810c-29891fe4a508.png" width = "500">
 </div>
 
+
 2. 사용자 정의 함수 플러그인
 강력한 기능을 실행하는 사용자 정의 함수 플러그인을 작성하십시오.
 이 프로젝트의 플러그인 작성 및 디버깅은 기술적으로 어렵지 않으며 Python의 기본지식만 있으면 제공된 템플릿을 모방하여 자신의 플러그인 기능을 구현할 수 있습니다.
 자세한 내용은 [함수 플러그인 가이드](https://github.com/binary-husky/chatgpt_academic/wiki/%ED%95%A8%EC%88%98-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8-%EA%B0%80%EC%9D%B4%EB%93%9C)를 참조하십시오.
 
 ## version :
+- version 3.5(Todo): 자연어로 이 프로젝트의 모든 함수 플러그인을 호출하는 기능 추가(우선 순위 높음)
 - version 3.4(Todo): ChatGPT LM 대규모 모델의 로컬 다중 스레드 지원 개선
 - version 3.3: +인터넷 정보 통합 기능
 - version 3.2: 함수 플러그인이 더 많은 매개 변수 인터페이스를 지원합니다 (대화 저장 기능, 모든 언어 코드 해석 + 동시에 임의의 LLM 조합 요청)
@@ -214,7 +220,6 @@ docker run --rm -it --net=host --gpus=all gpt-academic bash
 - version 2.1: 축소 가능한 레이아웃
 - version 2.0: 모듈식 함수 플러그인 도입
 - version 1.0: 기본 기능
-
 
 ## 참조 및 학습
 
