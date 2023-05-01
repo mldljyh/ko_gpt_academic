@@ -2,9 +2,9 @@
 
 **이 프로그램은 논문, 코드를 위한 GPT 프로젝트 입니다.**
 
-**기능 제안이나 버그 문의는 원 프로젝트인 gpt_academy로 부탁드립니다.**
+**기능 제안이나 버그 문의는 원 프로젝트인 gpt_academic로 부탁드립니다.**
 
-**[gpt_academy](https://github.com/mldljyh/ko_gpt_academic/)**
+**[gpt_academic](https://github.com/binary-husky/gpt_academic)**
 
 
 
