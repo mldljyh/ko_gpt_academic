@@ -62,11 +62,11 @@ def ArgsGeneralWrapper(f):
     return decorated
 
 
-def update_ui(chatbot, history, msg='正常', **kwargs):  # 刷新界面
+def update_ui(chatbot, history, msg='정상적입니다.', **kwargs):  # 刷新界面
     """
     刷新用户界面
     """
-    assert isinstance(chatbot, ChatBotWithCookies), "在传递chatbot的过程中不要将其丢弃。必要时，可用clear将其清空，然后用for+append循环重新赋值。"
+    assert isinstance(chatbot, ChatBotWithCookies), "chatbot를 전달하는 과정에서 버리지 마십시오. 필요시 clear를 사용하여 비울 수 있고, for와 append를 반복하여 다시 할당할 수 있습니다."
     yield chatbot.get_cookies(), chatbot, history, msg
 
 def trimmed_format_exc():
@@ -92,10 +92,10 @@ def CatchException(f):
             tb_str = '```\n' + trimmed_format_exc() + '```'
             if len(chatbot) == 0:
                 chatbot.clear()
-                chatbot.append(["插件调度异常", "异常原因"])
+                chatbot.append(["플러그인 스케줄링 예외 발생", "이상한 이유"])
             chatbot[-1] = (chatbot[-1][0],
-                           f"[Local Message] 实验性函数调用出错: \n\n{tb_str} \n\n当前代理可用性: \n\n{check_proxy(proxies)}")
-            yield from update_ui(chatbot=chatbot, history=history, msg=f'异常 {e}') # 刷新界面
+                           f"[로컬 메시지] 실험적 함수 호출 오류 발생: \n\n{tb_str} \n\n현재 프록시의 가용성: \n\n{check_proxy(proxies)}")
+            yield from update_ui(chatbot=chatbot, history=history, msg=f'이상 {e}') # 刷新界面
     return decorated
 
 
@@ -150,7 +150,7 @@ def get_reduce_token_percent(text):
         assert ratio > 0 and ratio < 1
         return ratio, str(int(current_tokens-max_limit))
     except:
-        return 0.5, '不详'
+        return 0.5, '상세한 정보가 없어서 정확하지 않은 상태입니다.'
 
 
 def write_results_to_file(history, file_name=None):
@@ -160,12 +160,12 @@ def write_results_to_file(history, file_name=None):
     import os
     import time
     if file_name is None:
-        # file_name = time.strftime("chatGPT分析报告%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
-        file_name = 'chatGPT分析报告' + \
+        # file_name = time.strftime("학술용ChatGPT%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
+        file_name = '학술용ChatGPT' + \
             time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + '.md'
     os.makedirs('./gpt_log/', exist_ok=True)
     with open(f'./gpt_log/{file_name}', 'w', encoding='utf8') as f:
-        f.write('# chatGPT 分析报告\n')
+        f.write('# 학술용 ChatGPT\n')
         for i, content in enumerate(history):
             try:    # 这个bug没找到触发条件，暂时先这样顶一下
                 if type(content) != str:
@@ -176,7 +176,7 @@ def write_results_to_file(history, file_name=None):
                 f.write('## ')
             f.write(content)
             f.write('\n\n')
-    res = '以上材料已经被写入' + os.path.abspath(f'./gpt_log/{file_name}')
+    res = '작성 완료' + os.path.abspath(f'./gpt_log/{file_name}')
     print(res)
     return res
 
@@ -376,7 +376,7 @@ def extract_archive(file_path, dest_dir):
                 print("Successfully extracted rar archive to {}".format(dest_dir))
         except:
             print("Rar format requires additional dependencies to install")
-            return '\n\n需要安装pip install rarfile来解压rar文件'
+            return 'rar 파일을 압축 해제하려면 pip install rarfile을 설치해야 합니다.'
 
     # 第三方库，需要预先pip install py7zr
     elif file_extension == '.7z':
@@ -387,7 +387,7 @@ def extract_archive(file_path, dest_dir):
                 print("Successfully extracted 7z archive to {}".format(dest_dir))
         except:
             print("7z format requires additional dependencies to install")
-            return '\n\n需要安装pip install py7zr来解压7z文件'
+            return '7z 파일을 해제하려면 pip install py7zr을(를) 설치해야 합니다.'
     else:
         return ''
     return ''
@@ -441,17 +441,17 @@ def on_file_uploaded(files, chatbot, txt, txt2, checkboxes):
         err_msg += extract_archive(f'private_upload/{time_tag}/{file_origin_name}',
                                    dest_dir=f'private_upload/{time_tag}/{file_origin_name}.extract')
     moved_files = [fp for fp in glob.glob('private_upload/**/*', recursive=True)]
-    if "底部输入区" in checkboxes:
+    if "하단 입력영역" in checkboxes:
         txt = ""
         txt2 = f'private_upload/{time_tag}'
     else:
         txt = f'private_upload/{time_tag}'
         txt2 = ""
     moved_files_str = '\t\n\n'.join(moved_files)
-    chatbot.append(['我上传了文件，请查收',
-                    f'[Local Message] 收到以下文件: \n\n{moved_files_str}' +
-                    f'\n\n调用路径参数已自动修正到: \n\n{txt}' +
-                    f'\n\n现在您点击任意“红颜色”标识的函数插件时，以上文件将被作为输入参数'+err_msg])
+    chatbot.append(['파일을 업로드했습니다. 확인해주세요.',
+                    f'[Local Message] 다음 파일을 받았습니다:: \n\n{moved_files_str}' +
+                    f'\n\n호출 경로 매개변수가 자동으로 수정되었습니다.: \n\n{txt}' +
+                    f'\n\n이제 “빨간색”으로 표시된 모든 함수 플러그인을 클릭할 때 위의 파일이 입력 매개변수로 사용됩니다.'+err_msg])
     return chatbot, txt, txt2
 
 
@@ -461,7 +461,7 @@ def on_report_generated(files, chatbot):
     if len(report_files) == 0:
         return None, chatbot
     # files.extend(report_files)
-    chatbot.append(['汇总报告如何远程获取？', '汇总报告已经添加到右侧“文件上传区”（可能处于折叠状态），请查收。'])
+    chatbot.append(['종합 보고서 파일을 어떻게 받을 수 있나요?', '종합 보고서는 오른쪽의 "파일 업로드 영역"에 추가되었습니다 (접힌 상태일 수 있음), 확인해주세요.'])    
     return report_files, chatbot
 
 def is_openai_api_key(key):
@@ -496,7 +496,7 @@ def what_keys(keys):
         if is_api2d_key(k): 
             avail_key_list['API2D Key'] += 1
 
-    return f"检测到： OpenAI Key {avail_key_list['OpenAI Key']} 个，API2D Key {avail_key_list['API2D Key']} 个"
+    return f"검출됨: OpenAI Key {avail_key_list['OpenAI Key']}개, API2D Key {avail_key_list['API2D Key']}개"
 
 def select_api_key(keys, llm_model):
     import random
@@ -512,7 +512,7 @@ def select_api_key(keys, llm_model):
             if is_api2d_key(k): avail_key_list.append(k)
 
     if len(avail_key_list) == 0:
-        raise RuntimeError(f"您提供的api-key不满足要求，不包含任何可用于{llm_model}的api-key。您可能选择了错误的模型或请求源。")
+        raise RuntimeError(f"제공하신 API 키는 {llm_model}에서 사용할 수 있는 키가 없기 때문에 요구사항을 충족하지 못합니다. 잘못된 모델이나 요청 소스를 선택했을 가능성이 있습니다.")
 
     api_key = random.choice(avail_key_list) # 随机负载均衡
     return api_key
@@ -526,18 +526,18 @@ def read_single_conf_with_lru_cache(arg):
         r = getattr(importlib.import_module('config'), arg)
     # 在读取API_KEY时，检查一下是不是忘了改config
     if arg == 'API_KEY':
-        print亮蓝(f"[API_KEY] 本项目现已支持OpenAI和API2D的api-key。也支持同时填写多个api-key，如API_KEY=\"openai-key1,openai-key2,api2d-key3\"")
-        print亮蓝(f"[API_KEY] 您既可以在config.py中修改api-key(s)，也可以在问题输入区输入临时的api-key(s)，然后回车键提交后即可生效。")
+        print亮蓝(f"[API_KEY]이제 이 프로젝트는 OpenAI와 API2D의 API 키를 지원합니다. 또한 여러 개의 API 키를 동시에 작성할 수도 있습니다. 예: API_KEY =\"openai-key1,openai-key2,api2d-key3\"")
+        print亮蓝(f"[API_KEY] 당신은 config.py에서 API 키를 변경할 수도 있고, 문제 입력 영역에서 일시적인 API 키를 입력한 후 엔터를 누르면 즉시 적용됩니다.")
         if is_any_api_key(r):
-            print亮绿(f"[API_KEY] 您的 API_KEY 是: {r[:15]}*** API_KEY 导入成功")
+            print亮绿(f"[API_KEY] 귀하의 API_KEY는: {r[:15]}***입니다. API_KEY가 성공적으로 가져와졌습니다.")
         else:
-            print亮红( "[API_KEY] 正确的 API_KEY 是'sk'开头的51位密钥（OpenAI），或者 'fk'开头的41位密钥，请在config文件中修改API密钥之后再运行。")
+            print亮红( "[API_KEY] 올바른 API_KEY는 'sk'로 시작하는 51자리 키 (OpenAI) 또는 'fk'로 시작하는 41자리 키입니다. API 키를 수정한 후에 실행하세요. config 파일에서 수정할 수 있습니다.")
     if arg == 'proxies':
         if r is None:
-            print亮红('[PROXY] 网络代理状态：未配置。无代理状态下很可能无法访问OpenAI家族的模型。建议：检查USE_PROXY选项是否修改。')
+            print亮红('[PROXY] 네트워크 프록시 상태: 구성되지 않음. 프록시 없이 OpenAI 가족의 모델에 액세스할 수 없는 경우가 많습니다. 권장 사항: USE_PROXY 옵션이 수정되었는지 확인하십시오.')
         else:
-            print亮绿('[PROXY] 网络代理状态：已配置。配置信息如下：', r)
-            assert isinstance(r, dict), 'proxies格式错误，请注意proxies选项的格式，不要遗漏括号。'
+            print亮绿('[PROXY] 네트워크 프록시 상태: 설정 완료. 다음과 같이 설정 정보가 있습니다:', r)
+            assert isinstance(r, dict), 'proxies 형식이 잘못되었습니다. proxies 옵션의 형식에 주의하십시오. 괄호를 빠뜨리지 마십시오.'
     return r
 
 

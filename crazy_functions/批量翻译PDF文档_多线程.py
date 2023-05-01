@@ -12,8 +12,8 @@ def 批量翻译PDF文档(txt, llm_kwargs, plugin_kwargs, chatbot, history, sys_
 
     # 基本信息：功能、贡献者
     chatbot.append([
-        "函数插件功能？",
-        "批量翻译PDF文档。函数插件贡献者: Binary-Husky"])
+        "함수 플러그인 기능이 뭐에요?",
+        "PDF 문서를 대량으로 번역합니다. 함수 플러그인 기여자: Binary-Husky."])
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
     # 尝试导入依赖，如果缺少依赖，则给出安装建议
@@ -22,8 +22,8 @@ def 批量翻译PDF文档(txt, llm_kwargs, plugin_kwargs, chatbot, history, sys_
         import tiktoken
     except:
         report_execption(chatbot, history,
-                         a=f"解析项目: {txt}",
-                         b=f"导入软件依赖失败。使用该模块需要额外依赖，安装方法```pip install --upgrade pymupdf tiktoken```。")
+                         a=f"분석 프로젝트: {txt}",
+                         b=f"소프트웨어 의존성을 가져오는 데 실패했습니다. 이 모듈을 사용하려면 추가적인 의존성이 필요하며, 설치 방법은 ```pip install --upgrade pymupdf tiktoken``` 입니다.")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
@@ -35,9 +35,9 @@ def 批量翻译PDF文档(txt, llm_kwargs, plugin_kwargs, chatbot, history, sys_
         project_folder = txt
     else:
         if txt == "":
-            txt = '空空如也的输入栏'
+            txt = '비어 있는 입력란'
         report_execption(chatbot, history,
-                         a=f"解析项目: {txt}", b=f"找不到本地项目或无权访问: {txt}")
+                         a=f"분석 프로젝트: {txt}", b=f"해당 지역의 프로젝트를 찾을 수 없거나 접근 권한이 없습니다: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
@@ -48,7 +48,7 @@ def 批量翻译PDF文档(txt, llm_kwargs, plugin_kwargs, chatbot, history, sys_
     # 如果没找到任何文件
     if len(file_manifest) == 0:
         report_execption(chatbot, history,
-                         a=f"解析项目: {txt}", b=f"找不到任何.tex或.pdf文件: {txt}")
+                         a=f"분석 프로젝트: {txt}", b=f".tex나 .pdf 형식의 파일을 찾을 수 없습니다: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
 
@@ -81,8 +81,8 @@ def 解析PDF(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot,
         
         # 单线，获取文章meta信息
         paper_meta_info = yield from request_gpt_model_in_new_thread_with_ui_alive(
-            inputs=f"以下是一篇学术论文的基础信息，请从中提取出“标题”、“收录会议或期刊”、“作者”、“摘要”、“编号”、“作者邮箱”这六个部分。请用markdown格式输出，最后用中文翻译摘要部分。请提取：{paper_meta}",
-            inputs_show_user=f"请从{fp}中提取出“标题”、“收录会议或期刊”等基本信息。",
+            inputs=f"아래는 학술 논문의 기본 정보입니다. \"제목\", \"수록된 학회 또는 저널\", \"저자\", \"요약\", \"번호\", \"저자 이메일\" 중에서 이 6 가지를 추출해주세요. markdown 형식으로 출력하고, 마지막으로 요약 부분을 번역해주세요. 추출해야 할 부분은 {paper_meta}입니다.",
+            inputs_show_user=f"{fp}에서 \"제목\", \"수록된 학회 또는 저널\" 등 기본 정보를 추출해주세요.",
             llm_kwargs=llm_kwargs,
             chatbot=chatbot, history=[],
             sys_prompt="Your job is to collect information from materials。",
@@ -91,41 +91,41 @@ def 解析PDF(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot,
         # 多线，翻译
         gpt_response_collection = yield from request_gpt_model_multi_threads_with_very_awesome_ui_and_high_efficiency(
             inputs_array=[
-                f"你需要翻译以下内容：\n{frag}" for frag in paper_fragments],
-            inputs_show_user_array=[f"\n---\n 原文： \n\n {frag.replace('#', '')}  \n---\n 翻译：\n " for frag in paper_fragments],
+                f"당신은 다음 내용을 번역해주시기 바랍니다: {frag}" for frag in paper_fragments],
+            inputs_show_user_array=[f"\n---\n 원문： \n\n {frag.replace('#', '')}  \n---\n 번역：\n " for frag in paper_fragments],
             llm_kwargs=llm_kwargs,
             chatbot=chatbot,
             history_array=[[paper_meta] for _ in paper_fragments],
             sys_prompt_array=[
-                "请你作为一个学术翻译，负责把学术论文准确翻译成中文。注意文章中的每一句话都要翻译。" for _ in paper_fragments],
+                "당신은 학술 번역가로서 학술 논문을 정확하게 한국어로 번역하는 역할을 맡아야 합니다. 글에서 매 문장마다 번역하는 데 유의해야 합니다." for _ in paper_fragments],
             # max_workers=5  # OpenAI所允许的最大并行过载
         )
 
         # 整理报告的格式
         for i,k in enumerate(gpt_response_collection): 
             if i%2==0:
-                gpt_response_collection[i] = f"\n\n---\n\n ## 原文[{i//2}/{len(gpt_response_collection)//2}]： \n\n {paper_fragments[i//2].replace('#', '')}  \n\n---\n\n ## 翻译[{i//2}/{len(gpt_response_collection)//2}]：\n "
+                gpt_response_collection[i] = f"\n\n---\n\n ## 원문[{i//2+1}/{len(gpt_response_collection)//2}]： \n\n {paper_fragments[i//2].replace('#', '')}  \n\n---\n\n ## 번역[{i//2+1}/{len(gpt_response_collection)//2}]：\n "
             else:
                 gpt_response_collection[i] = gpt_response_collection[i]
-        final = ["一、论文概况\n\n---\n\n", paper_meta_info.replace('# ', '### ') + '\n\n---\n\n', "二、论文翻译", ""]
+        final = ["1. 논문 개요", paper_meta_info.replace('# ', '### ') + '\n\n---\n\n', "2. 논문 번역", ""]
         final.extend(gpt_response_collection)
         create_report_file_name = f"{os.path.basename(fp)}.trans.md"
         res = write_results_to_file(final, file_name=create_report_file_name)
 
         # 更新UI
         generated_conclusion_files.append(f'./gpt_log/{create_report_file_name}')
-        chatbot.append((f"{fp}完成了吗？", res))
+        chatbot.append((f"{fp} 끝났나요?", res))
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
     # 准备文件的下载
     import shutil
     for pdf_path in generated_conclusion_files:
         # 重命名文件
-        rename_file = f'./gpt_log/总结论文-{os.path.basename(pdf_path)}'
+        rename_file = f'./gpt_log/총정리 논문-{os.path.basename(pdf_path)}'
         if os.path.exists(rename_file):
             os.remove(rename_file)
         shutil.copyfile(pdf_path, rename_file)
         if os.path.exists(pdf_path):
             os.remove(pdf_path)
-    chatbot.append(("给出输出文件清单", str(generated_conclusion_files)))
+    chatbot.append(("출력 파일 목록을 제공해주세요.", str(generated_conclusion_files)))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面

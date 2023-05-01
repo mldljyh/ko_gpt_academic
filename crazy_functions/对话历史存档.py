@@ -9,7 +9,7 @@ def write_chat_to_file(chatbot, history=None, file_name=None):
     import os
     import time
     if file_name is None:
-        file_name = 'chatGPT对话历史' + time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + '.html'
+        file_name = 'chatGPT의 채팅 기록입니다.' + time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + '.html'
     os.makedirs('./gpt_log/', exist_ok=True)
     with open(f'./gpt_log/{file_name}', 'w', encoding='utf8') as f:
         from theme import advanced_css
@@ -29,7 +29,7 @@ def write_chat_to_file(chatbot, history=None, file_name=None):
         for h in history:
             f.write("\n>>>" + h)
         f.write('</code>')
-    res = '对话历史写入：' + os.path.abspath(f'./gpt_log/{file_name}')
+    res = '대화 기록을 저장합니다: ' + os.path.abspath(f'./gpt_log/{file_name}')
     print(res)
     return res
 
@@ -81,7 +81,7 @@ def 对话历史存档(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_
     """
 
     chatbot.append(("保存当前对话", 
-        f"[Local Message] {write_chat_to_file(chatbot, history)}，您可以调用“载入对话历史存档”还原当下的对话。\n警告！被保存的对话历史可以被使用该系统的任何人查阅。"))
+        f"[Local Message] {write_chat_to_file(chatbot, history)}，현재 대화를 복원하려면 "대화 기록 불러오기"를 호출할 수 있습니다. 경고: 저장된 대화 기록은 이 시스템을 사용하는 누구나 볼 수 있습니다."))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面 # 由于请求gpt需要一段时间，我们先及时地做一次界面更新
 
 def hide_cwd(str):

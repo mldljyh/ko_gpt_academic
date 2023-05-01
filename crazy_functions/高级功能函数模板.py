@@ -13,16 +13,16 @@ def 高阶功能模板函数(txt, llm_kwargs, plugin_kwargs, chatbot, history, s
     web_port        当前软件运行的端口号
     """
     history = []    # 清空历史，以免输入溢出
-    chatbot.append(("这是什么功能？", "[Local Message] 请注意，您正在调用一个[函数插件]的模板，该函数面向希望实现更多有趣功能的开发者，它可以作为创建新功能函数的模板（该函数只有20多行代码）。此外我们也提供可同步处理大量文件的多线程Demo供您参考。您若希望分享新的功能模组，请不吝PR！"))
+    chatbot.append(("이게 뭐하는 기능이에요?", "[Local message] 주의하세요. [함수 플러그인]의 템플릿을 호출하고 있습니다. 이 함수는 더 많은 재미있는 기능을 구현하려는 개발자를 대상으로 합니다. 이것은 새로운 기능 함수를 만들기 위한 템플릿으로 사용될 수 있습니다. (이 함수는 20줄 정도의 코드만 사용합니다.) 또한, 우리는 여러 파일을 동기화 처리할 수 있는 멀티 스레드 데모도 제공합니다. 새로운 기능 모듈을 공유하고 싶다면 적극적으로 PR을 보내주세요!"))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面 # 由于请求gpt需要一段时间，我们先及时地做一次界面更新
     for i in range(5):
         currentMonth = (datetime.date.today() + datetime.timedelta(days=i)).month
         currentDay = (datetime.date.today() + datetime.timedelta(days=i)).day
-        i_say = f'历史中哪些事件发生在{currentMonth}月{currentDay}日？列举两条并发送相关图片。发送图片时，请使用Markdown，将Unsplash API中的PUT_YOUR_QUERY_HERE替换成描述该事件的一个最重要的单词。'
+        i_say = f'지금 {currentMonth}월 {currentDay} 일 에 일어난 역사적 사건 중 어떤 것이 있나요? 두 가지를 나열하고 관련 이미지를 보내주세요. 이미지를 보내실 때, Markdown을 사용하여 PUT_YOUR_QUERY_HERE를 해당 사건의 가장 중요한 단어로 대체해주세요.'
         gpt_say = yield from request_gpt_model_in_new_thread_with_ui_alive(
             inputs=i_say, inputs_show_user=i_say, 
             llm_kwargs=llm_kwargs, chatbot=chatbot, history=[], 
-            sys_prompt="当你想发送一张照片时，请使用Markdown, 并且不要有反斜线, 不要用代码块。使用 Unsplash API (https://source.unsplash.com/1280x720/? < PUT_YOUR_QUERY_HERE >)。"
+            sys_prompt="사진을 보내고 싶다면 Markdown을 사용하고, 역슬래시를 사용하지 말고 코드 블록을 사용하지 않도록 주의해주세요. Unsplash API (https://source.unsplash.com/1280x720/? < PUT_YOUR_QUERY_HERE >)를 사용해주세요."
         )
         chatbot[-1] = (i_say, gpt_say)
         history.append(i_say);history.append(gpt_say)

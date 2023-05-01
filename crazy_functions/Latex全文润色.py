@@ -77,7 +77,7 @@ def 多文件润色(file_manifest, project_folder, llm_kwargs, plugin_kwargs, ch
                         f"\n\n{frag}" for frag in pfg.sp_file_contents]
         inputs_show_user_array = [f"Polish {f}" for f in pfg.sp_file_tag]
         sys_prompt_array = ["You are a professional academic paper writer." for _ in range(n_split)]
-    elif language == 'zh':
+    elif language == 'ko':
         inputs_array = [f"以下是一篇学术论文中的一段内容，请将此部分润色以满足学术标准，提高语法、清晰度和整体可读性，不要修改任何LaTeX命令，例如\section，\cite和方程式：" + 
                         f"\n\n{frag}" for frag in pfg.sp_file_contents]
         inputs_show_user_array = [f"润色 {f}" for f in pfg.sp_file_tag]
@@ -99,7 +99,7 @@ def 多文件润色(file_manifest, project_folder, llm_kwargs, plugin_kwargs, ch
     create_report_file_name = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + f"-chatgpt.polish.md"
     res = write_results_to_file(gpt_response_collection, file_name=create_report_file_name)
     history = gpt_response_collection
-    chatbot.append((f"{fp}完成了吗？", res))
+    chatbot.append((f"{fp}완료되었나요?", res))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
 
@@ -172,4 +172,4 @@ def Latex中文润色(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_p
         report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.tex文件: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
-    yield from 多文件润色(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='zh')
+    yield from 多文件润色(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='ko')

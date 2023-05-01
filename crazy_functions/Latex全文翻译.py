@@ -71,13 +71,13 @@ def 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, ch
     # )
 
     #  <-------- 多线程润色开始 ----------> 
-    if language == 'en->zh':
-        inputs_array = ["Below is a section from an English academic paper, translate it into Chinese, do not modify any latex command such as \section, \cite and equations:" + 
+    if language == 'en->ko':
+        inputs_array = ["Below is a section from an English academic paper, translate it into Korean, do not modify any latex command such as \section, \cite and equations:" + 
                         f"\n\n{frag}" for frag in pfg.sp_file_contents]
         inputs_show_user_array = [f"翻译 {f}" for f in pfg.sp_file_tag]
         sys_prompt_array = ["You are a professional academic paper translator." for _ in range(n_split)]
-    elif language == 'zh->en':
-        inputs_array = [f"Below is a section from a Chinese academic paper, translate it into English, do not modify any latex command such as \section, \cite and equations:" + 
+    elif language == 'ko->en':
+        inputs_array = [f"Below is a section from a Korean academic paper, translate it into English, do not modify any latex command such as \section, \cite and equations:" + 
                         f"\n\n{frag}" for frag in pfg.sp_file_contents]
         inputs_show_user_array = [f"翻译 {f}" for f in pfg.sp_file_tag]
         sys_prompt_array = ["You are a professional academic paper translator." for _ in range(n_split)]
@@ -97,7 +97,7 @@ def 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, ch
     create_report_file_name = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime()) + f"-chatgpt.polish.md"
     res = write_results_to_file(gpt_response_collection, file_name=create_report_file_name)
     history = gpt_response_collection
-    chatbot.append((f"{fp}完成了吗？", res))
+    chatbot.append((f"{fp}완료되었나요?", res))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
 
 
@@ -135,7 +135,7 @@ def Latex英译中(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prom
         report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.tex文件: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
-    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='en->zh')
+    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='en->ko')
 
 
 
@@ -172,4 +172,4 @@ def Latex中译英(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_prom
         report_execption(chatbot, history, a = f"解析项目: {txt}", b = f"找不到任何.tex文件: {txt}")
         yield from update_ui(chatbot=chatbot, history=history) # 刷新界面
         return
-    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='zh->en')
+    yield from 多文件翻译(file_manifest, project_folder, llm_kwargs, plugin_kwargs, chatbot, history, system_prompt, language='ko->en')

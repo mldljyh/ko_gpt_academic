@@ -34,9 +34,9 @@ class LazyloadTiktoken(object):
     @staticmethod
     @lru_cache(maxsize=128)
     def get_encoder(model):
-        print('正在加载tokenizer，如果是第一次运行，可能需要一点时间下载参数')
+        print('tokenizer를 불러오는 중이며, 처음 실행하는 경우, 파라미터를 다운로드하는 데 시간이 조금 필요할 수 있습니다.')
         tmp = tiktoken.encoding_for_model(model)
-        print('加载tokenizer完毕')
+        print('tokenizer를 불러오기 완료')
         return tmp
     
     def encode(self, *args, **kwargs):
