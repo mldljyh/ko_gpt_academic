@@ -80,8 +80,8 @@ def 对话历史存档(txt, llm_kwargs, plugin_kwargs, chatbot, history, system_
     web_port        当前软件运行的端口号
     """
 
-    chatbot.append(("保存当前对话", 
-        f"[Local Message] {write_chat_to_file(chatbot, history)}，현재 대화를 복원하려면 "대화 기록 불러오기"를 호출할 수 있습니다. 경고: 저장된 대화 기록은 이 시스템을 사용하는 누구나 볼 수 있습니다."))
+    chatbot.append(("현재 대화 저장", 
+        f"[Local Message] {write_chat_to_file(chatbot, history)}，현재 대화를 복원하려면 \"대화 기록 불러오기\"를 호출할 수 있습니다. 경고: 저장된 대화 기록은 이 시스템을 사용하는 누구나 볼 수 있습니다."))
     yield from update_ui(chatbot=chatbot, history=history) # 刷新界面 # 由于请求gpt需要一段时间，我们先及时地做一次界面更新
 
 def hide_cwd(str):
