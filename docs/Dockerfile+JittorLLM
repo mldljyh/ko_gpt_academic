@@ -6,7 +6,7 @@
 FROM nvidia/cuda:11.3.1-runtime-ubuntu20.04
 ARG useProxyNetwork=''
 RUN apt-get update
-RUN apt-get install -y curl proxychains curl 
+RUN apt-get install -y curl proxychains curl g++
 RUN apt-get install -y git python python3 python-dev python3-dev --fix-missing
 
 # 配置代理网络（构建Docker镜像时使用）
@@ -31,13 +31,10 @@ WORKDIR /gpt/chatgpt_academic
 RUN $useProxyNetwork python3 -m pip install -r requirements.txt
 RUN $useProxyNetwork python3 -m pip install -r request_llm/requirements_chatglm.txt
 RUN $useProxyNetwork python3 -m pip install -r request_llm/requirements_newbing.txt
+RUN $useProxyNetwork python3 -m pip install -r request_llm/requirements_jittorllms.txt
 
-# 预热CHATGLM参数（非必要 可选步骤）
-RUN echo ' \n\
-from transformers import AutoModel, AutoTokenizer \n\
-chatglm_tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True) \n\
-chatglm_model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).float() ' >> warm_up_chatglm.py
-RUN python3 -u warm_up_chatglm.py
+# 下载JittorLLMs
+RUN $useProxyNetwork git clone https://gitlink.org.cn/jittor/JittorLLMs.git --depth 1 request_llm/jittorllms
 
 # 禁用缓存，确保更新代码
 ADD "https://www.random.org/cgi-bin/randbyte?nbytes=10&format=h" skipcache

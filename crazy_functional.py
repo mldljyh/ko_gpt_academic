@@ -21,16 +21,23 @@ def get_crazy_functions():
     from crazy_functions.总结word文档 import 总结word文档
     from crazy_functions.解析JupyterNotebook import 解析ipynb文件
     from crazy_functions.对话历史存档 import 对话历史存档
+    from crazy_functions.对话历史存档 import 载入对话历史存档
+    from crazy_functions.对话历史存档 import 删除所有本地对话历史记录
+    
     from crazy_functions.批量Markdown翻译 import Markdown英译中
     function_plugins = {
-
         "Python 프로젝트 분석": {
             "Color": "stop",    # 버튼 색상
             "Function": HotReload(解析一个Python项目)
         },
-        "현재 대화 저장": {
+        "대화 기록 불러오기 (먼저 저장된 파일을 업로드하거나 경로를 입력하세요)": {
+            "Color": "stop",
             "AsButton":False,
-            "Function": HotReload(对话历史存档)
+            "Function": HotReload(载入对话历史存档)
+        },
+        "모든 로컬 대화 기록 삭제 (신중하게 처리해 주세요)": {
+            "AsButton":False,
+            "Function": HotReload(删除所有本地对话历史记录)
         },
         "[테스트 기능] Jupyter Notebook 파일 분석": {
             "Color": "stop",
@@ -92,16 +99,20 @@ def get_crazy_functions():
             "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(批量生成函数注释)
         },
+        "현재 대화 저장": {
+            "Function": HotReload(对话历史存档)
+        },
         "[다중 스레드 데모] 프로젝트 자체 분석 (소스 코드 자체 번역)": {
+            "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(解析项目本身)
         },
         "[다중 스레드 데모] 프로젝트 소스 코드 전체를 영어로 변경": {
-            # HotReload는 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고도 코드가 즉시 적용되도록 함
+            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
             "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(全项目切换英文)
         },
         "[함수 플러그인 템플릿 데모] 오늘의 역사": {
-            # HotReload는 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고도 코드가 즉시 적용되도록 함
+            # HotReload 的意思是热更新，修改函数插件代码后，不需要重启程序，代码直接生效
             "Function": HotReload(高阶功能模板函数)
         },
 
@@ -163,19 +174,19 @@ def get_crazy_functions():
             "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(Latex中文润色)
         },
-        "[테스트 기능] Latex 프로젝트 전체 한-영 번역(경로 입력 또는 압축 파일 업로드)": {
+        "Latex 프로젝트 전체 한-영 번역(경로 입력 또는 압축 파일 업로드)": {
             # HotReload의 의미는 핫 업데이트이며, 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고 직접 코드를 적용합니다
             "Color": "stop",
             "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(Latex中译英)
         },
-        "[테스트 기능] Latex 프로젝트 전체 영-한 번역(경로 입력 또는 압축 파일 업로드)": {
+        "Latex 프로젝트 전체 영-한 번역(경로 입력 또는 압축 파일 업로드)": {
             # HotReload의 의미는 핫 업데이트이며, 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고 직접 코드를 적용합니다
             "Color": "stop",
             "AsButton": False,  # 드롭다운 메뉴에 추가
             "Function": HotReload(Latex英译中)
         },
-        "[테스트 기능] 일괄 Markdown 한-영 번역(경로 입력 또는 압축 파일 업로드)": {
+        "일괄 Markdown 한-영 번역(경로 입력 또는 압축 파일 업로드)": {
             # HotReload의 의미는 핫 업데이트이며, 함수 플러그인 코드를 수정한 후 프로그램을 다시 시작하지 않고 직접 코드를 적용합니다
             "Color": "stop",
             "AsButton": False,  # 드롭다운 메뉴에 추가

@@ -1,5 +1,7 @@
 **gpt_academic 한글화 프로젝트 입니다. gpt-3.5-turbo를 통해 번역하여 오역이 있을 수 있습니다.**
 
+**이 프로그램은 논문, 코드를 위한 GPT 프로젝트 입니다.**
+
 **기능 제안이나 버그 문의는 원 프로젝트인 gpt_academy로 부탁드립니다.**
 
 **[gpt_academy](https://github.com/mldljyh/ko_gpt_academic/)**
@@ -50,12 +52,12 @@ chat 분석 보고서 생성 | [기능 플러그인] 실행 후 요약 보고서
 [PDF 논문 번역 기능](https://www.bilibili.com/video/BV1KT411x7Wn) | [기능 플러그인] PDF 논문 제목 및 요약 추출 + 전체 문서 번역 (다중 스레드)
 [Arxiv 도우미](https://www.bilibili.com/video/BV1LM4y1279X) | [기능 플러그인] arxiv 글 URL을 입력하면 요약을 한 번에 번역하고 PDF를 다운로드 할 수 있습니다.
 [Google Scholar 통합 도우미](https://www.bilibili.com/video/BV19L411U7ia) | [기능 플러그인] 임의의 Google Scholar 검색 페이지 URL을 제공하면 GPT가 작성하는 [연관 작업](https://www.bilibili.com/video/BV1GP411U7Az/)을 지원합니다.
-인터넷 정보 집합 + GPT | [기능 플러그인] GPT가 인터넷에서 정보를 가져 와서 답변하게하여 정보가 영원히 올바르지 않도록 합니다.
-식 / 이미지 / 표시 | 동시에 [TeX 형식과 렌더링 형식](https://user-images.githubusercontent.com/96192199/230598842-1d7fcddd-815d-40ee-af60-baf488a199df.png)으로 공식을 표시 할 수 있습니다. 공식, 코드 강조를 지원합니다.
+인터넷 정보 집합 + GPT | [함수 플러그인] 한 번의 클릭으로 [GPT가 먼저 인터넷에서 정보를 가져온 후 질문에 답변하게 하기](https://www.bilibili.com/video/BV1om4y127ck), 정보가 항상 최신 상태로 유지되게 하기
+수식/사진/표 표시 | 동시에 [TeX 형식과 렌더링 형식](https://user-images.githubusercontent.com/96192199/230598842-1d7fcddd-815d-40ee-af60-baf488a199df.png)으로 공식을 표시 할 수 있습니다. 공식, 코드 강조를 지원합니다.
 다중 스레드 기능 플러그인 지원 | 다중 스레드로 chatgpt를 호출하는 것을 지원하여 대용량 텍스트 또는 프로그램을 한 번에 처리 할 수 있습니다.
 무채색 gradio [테마](https://github.com/binary-husky/chatgpt_academic/issues/173) 시작 | 브라우저 url 뒤에 ```/?__dark-theme=true```를 추가하여 dark 테마로 전환 할 수 있습니다.
 [여러 LLM 모델](https://www.bilibili.com/video/BV1wT411p7yf) 지원, [API2D](https://api2d.com/) 인터페이스 지원 | GPT3.5, GPT4 및 [Tsinghua ChatGLM](https://github.com/THUDM/ChatGLM-6B)에 모두 서비스되는 느낌은 좋을 것입니다.
-더 많은 LLM 모델 연결 | Newbing 테스트 인터페이스 (새로운 Bing AI) 추가
+더 많은 LLM 모델 연결, [허깅페이스 배포를 지원합니다](https://huggingface.co/spaces/qingxu98/gpt-academic). | Newbing 테스트 인터페이스 (새로운 Bing AI) 추가
 …… | ……
 
 </div>
@@ -168,15 +170,19 @@ docker run --rm -it --net=host --gpus=all gpt-academic
 docker run --rm -it --net=host --gpus=all gpt-academic bash
 ```
 
-## 설치 - 방법 3 : 다른 배포 방식 (클라우드 서버 지식과 경험이 필요)
 
-1. 원격 클라우드 서버 배포
-[배포 위키-1] (https://github.com/binary-husky/chatgpt_academic/wiki/Cloud-Server-Remote-Deploy-Guide)
+## 설치 - 방법3: 기타 배포 방식
 
-2. WSL2 사용 (Windows Subsystem for Linux 서브 시스템)
-[배포 위키-2] (https://github.com/binary-husky/chatgpt_academic/wiki/WSL2-Deploy-Guide)
+1. 역방향 프록시 URL/AzureAPI를 어떻게 사용하나요?
+`config.py`의 설명에 따라 API_URL_REDIRECT를 설정하면 됩니다.
 
-3. 2차 URL (예: `http://localhost/subpath`)에서 실행하는 방법
+2. 원격 클라우드 서버 배포
+[배포 위키-1] (https://github.com/binary-husky/chatgpt_academic/wiki/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%9C%E7%A8%8B%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97)
+
+3. WSL2 사용 (Windows Subsystem for Linux 서브 시스템)
+[배포 위키-2] (https://github.com/binary-husky/chatgpt_academic/wiki/%E4%BD%BF%E7%94%A8WSL2%EF%BC%88Windows-Subsystem-for-Linux-%E5%AD%90%E7%B3%BB%E7%BB%9F%EF%BC%89%E9%83%A8%E7%BD%B2)
+
+4. 2차 URL (예: `http://localhost/subpath`)에서 실행하는 방법
 [FastAPI 실행 안내서] (docs / WithFastapi.md)를 방문하세요.
 
 ---
@@ -200,10 +206,43 @@ docker run --rm -it --net=host --gpus=all gpt-academic bash
 </div>
 
 
-2. 사용자 정의 함수 플러그인
-강력한 기능을 실행하는 사용자 정의 함수 플러그인을 작성하십시오.
-이 프로젝트의 플러그인 작성 및 디버깅은 기술적으로 어렵지 않으며 Python의 기본지식만 있으면 제공된 템플릿을 모방하여 자신의 플러그인 기능을 구현할 수 있습니다.
-자세한 내용은 [함수 플러그인 가이드](https://github.com/binary-husky/chatgpt_academic/wiki/%ED%95%A8%EC%88%98-%ED%94%8C%EB%9F%AC%EA%B7%B8%EC%9D%B8-%EA%B0%80%EC%9D%B4%EB%93%9C)를 참조하십시오.
+---
+
+## 기타 기능 설명
+
+1. 대화 저장 기능. 함수 플러그인 영역에서 `현재 대화 저장`을 호출하면 현재 대화를 읽고 복원 가능한 HTML 파일로 저장할 수 있습니다. 예시:
+<div align="center">
+<img src="https://user-images.githubusercontent.com/96192199/235222390-24a9acc0-680f-49f5-bc81-2f3161f1e049.png" width="500" >
+</div>
+
+함수 플러그인 영역(드롭다운 메뉴)에서 `대화 기록 불러오기`를 호출하면 이전 대화를 복원할 수 있습니다.
+
+2. 보고서 생성. 대부분의 플러그인은 실행이 끝난 후 작업 보고서를 생성합니다.
+<div align="center">
+<img src="https://user-images.githubusercontent.com/96192199/227503770-fe29ce2c-53fd-47b0-b0ff-93805f0c2ff4.png" height="300" >
+<img src="https://user-images.githubusercontent.com/96192199/227504617-7a497bb3-0a2a-4b50-9a8a-95ae60ea7afd.png" height="300" >
+<img src="https://user-images.githubusercontent.com/96192199/227504005-efeaefe0-b687-49d0-bf95-2d7b7e66c348.png" height="300" >
+</div>
+
+3. 모듈화된 기능 설계로 간단한 인터페이스를 통해 강력한 기능을 지원합니다.
+<div align="center">
+<img src="https://user-images.githubusercontent.com/96192199/229288270-093643c1-0018-487a-81e6-1d7809b6e90f.png" height="400" >
+<img src="https://user-images.githubusercontent.com/96192199/227504931-19955f78-45cd-4d1c-adac-e71e50957915.png" height="400" >
+</div>
+
+4. 이 프로젝트는 "자기 해석"이 가능한 오픈소스 프로젝트입니다.
+<div align="center">
+<img src="https://user-images.githubusercontent.com/96192199/226936850-c77d7183-0749-4c1c-9875-fd4891842d0c.png" width="500" >
+</div>
+
+5. 다른 오픈소스 프로젝트를 해석하는 것도 문제가 아닙니다.
+<div align="center">
+<img src="https://user-images.githubusercontent.com/96192199/226935232-6b6a73ce-8900-4aee-93f9-733c7e6fef53.png" width="500" >
+</div>
+
+<div align="center">
+<img src="https://user-images.githubusercontent.com/96192199/226969067-968a27c1-1b9c-486b-8b81-ab2de8d3f88a.png" width="500" >
+</div>
 
 ## version :
 - version 3.5(Todo): 자연어로 이 프로젝트의 모든 함수 플러그인을 호출하는 기능 추가(우선 순위 높음)
